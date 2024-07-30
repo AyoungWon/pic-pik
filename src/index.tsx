@@ -1,20 +1,17 @@
-import ReactDOM from "react-dom";
-import ImageComponent from "./components/ImageComponent";
+import { createRoot } from "react-dom/client";
+import ImageUploader from "./components/image-uploader";
 
 const App = () => (
   <div>
-    <h1>React Image Component Library</h1>
-    <ImageComponent
-      src="example.jpg"
-      alt="Example"
-      width={200}
-      height={200}
-      rounded={true}
-      borderColor="blue"
-    />
+    <h1>PicPik Uploader</h1>
+    <ImageUploader />
   </div>
 );
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const container = document.getElementById("root");
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
 
-export { ImageComponent };
+export { ImageUploader };
