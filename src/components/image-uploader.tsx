@@ -14,13 +14,6 @@ import useImageMetadata, {
 } from "../hooks/useImageMetadata";
 import { type ValidateOptions } from "../utils/validate";
 
-// TODO
-// label의 스타일 받기
-// input에 들어갈 props 받기
-// children 받아서 label에 넣어주기
-// imageMetadata 로드에 대한 콜백 받기
-// 이미지 accept 형식 지정을 해줄까?
-
 interface ImageUploaderProps {
   accept?: string | undefined;
   style?: React.CSSProperties | undefined;
@@ -63,14 +56,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   }, [imageMetadata, onMetadataLoaded]);
 
   return (
-    <label style={style} htmlFor="pic_pik_input">
-      <input
-        id="pic_pik_input"
-        type="file"
-        accept={accept}
-        css={_hidden}
-        ref={ref}
-      />
+    <label style={style}>
+      <input type="file" accept={accept} css={_hidden} ref={ref} />
       {extendedChildren}
     </label>
   );
