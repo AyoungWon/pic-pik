@@ -4,8 +4,19 @@ import ImageUploader from "./components/image-uploader";
 const App = () => (
   <div>
     <h1>PicPik Uploader</h1>
-    <ImageUploader accept="image/*" onMetadataLoaded={() => {}}>
-      <button>Click</button>
+    <ImageUploader
+      accept=".jpg"
+      onMetadataLoaded={(data) => {
+        console.log(data);
+      }}
+      validateOptions={{
+        width: {
+          max: 500,
+        },
+        height: 3000,
+      }}
+    >
+      click
     </ImageUploader>
   </div>
 );

@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { validateImageFile, type ValidateOptions } from "../utils/validate";
 
 //todo validate 추가하기
-interface Props {}
+interface Props {
+  validateOptions?: ValidateOptions;
+}
 
 export interface ImageFileMetadata {
   height: number;
@@ -12,7 +15,7 @@ export interface ImageFileMetadata {
   src: string;
 }
 
-const useImageMetadata = () => {
+const useImageMetadata = ({ validateOptions }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
 
   const [imageMetadata, setImageMetadata] = useState<ImageFileMetadata | null>(
@@ -31,14 +34,19 @@ const useImageMetadata = () => {
         const totalSizeKB = Math.ceil(e.total / 1024);
         const fileName = target.files?.[0].name ?? "";
         const fileExtension = (fileName.split(".").pop() ?? "").toLowerCase();
-        setImageMetadata({
+        const metaData = {
           height,
           width,
           size: totalSizeKB,
           name: fileName,
           extension: fileExtension,
           src: image.src,
-        });
+        };
+        if (validateOptions) {
+          const validatePassed = validateImageFile(validateOptions, metaData);
+          if (!validatePassed) return false;
+        }
+        setImageMetadata(metaData);
       };
     };
 

@@ -9,7 +9,10 @@ import React, {
   useMemo,
   MouseEvent,
 } from "react";
-import useImageMetadata, { ImageFileMetadata } from "../hooks/useImageMetadata";
+import useImageMetadata, {
+  type ImageFileMetadata,
+} from "../hooks/useImageMetadata";
+import { type ValidateOptions } from "../utils/validate";
 
 // TODO
 // label의 스타일 받기
@@ -18,28 +21,22 @@ import useImageMetadata, { ImageFileMetadata } from "../hooks/useImageMetadata";
 // imageMetadata 로드에 대한 콜백 받기
 // 이미지 accept 형식 지정을 해줄까?
 
-interface ValidateOptions {
-  width?: number;
-  height?: number;
-  size?: number;
-}
-
 interface ImageUploaderProps {
   accept?: string | undefined;
   style?: React.CSSProperties | undefined;
   children?: ReactNode;
   onMetadataLoaded?: (metadata: ImageFileMetadata) => void;
-  validate?: ValidateOptions;
+  validateOptions?: ValidateOptions;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
   accept,
   style,
   children,
-  validate,
+  validateOptions,
   onMetadataLoaded,
 }) => {
-  const { ref, imageMetadata } = useImageMetadata();
+  const { ref, imageMetadata } = useImageMetadata({ validateOptions });
   const extendedChildren = useMemo(
     () =>
       React.Children.map(children, (child) => {
