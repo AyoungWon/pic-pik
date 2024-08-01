@@ -4,7 +4,9 @@ import ImageUploader from "./components/image-uploader";
 const App = () => (
   <div>
     <h1>PicPik Uploader</h1>
-    <ImageUploader />
+    <ImageUploader accept="image/*" onMetadataLoaded={() => {}}>
+      <button>Click</button>
+    </ImageUploader>
   </div>
 );
 

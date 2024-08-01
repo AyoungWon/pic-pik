@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+//todo validate 추가하기
 interface Props {}
 
 export interface ImageFileMetadata {

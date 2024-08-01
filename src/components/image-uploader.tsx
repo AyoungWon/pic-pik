@@ -1,31 +1,60 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import React, { useEffect } from "react";
-import useImageMetadata from "../hooks/useImageMetadata";
+import React, {
+  ReactElement,
+  ReactNode,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useMemo,
+  MouseEvent,
+} from "react";
+import useImageMetadata, { ImageFileMetadata } from "../hooks/useImageMetadata";
 
-//TODO
-//label의 스타일 받기
-//input에 들어갈 props 받기
-//children 받아서 label에 넣어주기
-//imageMetadata 로드에 대한 콜백 받기
-interface ImageUploaderProps {}
+// TODO
+// label의 스타일 받기
+// input에 들어갈 props 받기
+// children 받아서 label에 넣어주기
+// imageMetadata 로드에 대한 콜백 받기
+// 이미지 accept 형식 지정을 해줄까?
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({}) => {
+interface ValidateOptions {
+  width?: number;
+  height?: number;
+  size?: number;
+}
+
+interface ImageUploaderProps {
+  accept?: string | undefined;
+  style?: React.CSSProperties | undefined;
+  children?: ReactNode;
+  onMetadataLoaded?: (metadata: ImageFileMetadata) => void;
+  validate?: ValidateOptions;
+}
+
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  accept,
+  style,
+  children,
+  validate,
+  onMetadataLoaded,
+}) => {
   const { ref, imageMetadata } = useImageMetadata();
+
   useEffect(() => {
-    console.log(imageMetadata);
-  }, [imageMetadata]);
+    if (imageMetadata && onMetadataLoaded) onMetadataLoaded(imageMetadata);
+  }, [imageMetadata, onMetadataLoaded]);
 
   return (
-    <label htmlFor={"pic_pik_file_input"}>
-      click
+    <label style={style} htmlFor="pic_pik_input">
       <input
-        id={"pic_pik_file_input"}
+        id="pic_pik_input"
         type="file"
-        accept="image/*"
+        accept={accept}
         css={_hidden}
         ref={ref}
       />
+      {children}
     </label>
   );
 };
