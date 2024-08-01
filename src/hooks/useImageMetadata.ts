@@ -15,7 +15,7 @@ export interface ImageFileMetadata {
   src: string;
 }
 
-const useImageMetadata = ({ validateOptions }: Props) => {
+const useImageMetadata = ({ validateOptions }: Props | undefined = {}) => {
   const ref = useRef<HTMLInputElement>(null);
 
   const [imageMetadata, setImageMetadata] = useState<ImageFileMetadata | null>(
