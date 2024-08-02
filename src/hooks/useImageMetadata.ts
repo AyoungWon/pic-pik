@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { validateImageFile, type ValidateOptions } from "../utils/validate";
 
-//todo validate 추가하기
 interface Props {
   validateOptions?: ValidateOptions;
 }
@@ -15,42 +14,57 @@ export interface ImageFileMetadata {
   src: string;
 }
 
+export const readImageFileMetadata = (
+  file: File,
+  validateOptions?: ValidateOptions
+): Promise<ImageFileMetadata | null> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const readerTarget = e.target as FileReader;
+      const image = new Image();
+      image.src = readerTarget.result as string;
+
+      image.onload = () => {
+        const metaData: ImageFileMetadata = {
+          height: image.height,
+          width: image.width,
+          size: Math.ceil(e.total / 1024),
+          name: file.name,
+          extension: (file.name.split(".").pop() ?? "").toLowerCase(),
+          src: image.src,
+        };
+
+        if (validateOptions) {
+          const validatePassed = validateImageFile(validateOptions, metaData);
+          if (!validatePassed) return resolve(null);
+        }
+        resolve(metaData);
+      };
+
+      image.onerror = () => resolve(null);
+    };
+
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
+};
+
 const useImageMetadata = ({ validateOptions }: Props | undefined = {}) => {
   const ref = useRef<HTMLInputElement>(null);
 
   const [imageMetadata, setImageMetadata] = useState<ImageFileMetadata | null>(
     null
   );
-  const handleFileChange = (event: Event) => {
+
+  const handleFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement;
-    const reader = new FileReader();
+    const file = target.files?.[0];
 
-    reader.onload = (e) => {
-      const readerTarget = e.target as FileReader;
-      const image = new Image();
-      image.src = readerTarget.result as string;
-      image.onload = () => {
-        const { height, width } = image;
-        const totalSizeKB = Math.ceil(e.total / 1024);
-        const fileName = target.files?.[0].name ?? "";
-        const fileExtension = (fileName.split(".").pop() ?? "").toLowerCase();
-        const metaData = {
-          height,
-          width,
-          size: totalSizeKB,
-          name: fileName,
-          extension: fileExtension,
-          src: image.src,
-        };
-        if (validateOptions) {
-          const validatePassed = validateImageFile(validateOptions, metaData);
-          if (!validatePassed) return false;
-        }
-        setImageMetadata(metaData);
-      };
-    };
-
-    if (target.files && target.files[0]) reader.readAsDataURL(target.files[0]);
+    if (file) {
+      const metaData = await readImageFileMetadata(file, validateOptions);
+      setImageMetadata(metaData);
+    }
   };
 
   useEffect(() => {
