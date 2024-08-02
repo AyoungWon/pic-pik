@@ -3,43 +3,53 @@ import {
   readImageFileMetadata,
 } from "../hooks/useImageMetadata";
 
+const defaultEvent = {
+  target: { result: "data:image/png;base64,dummy content" },
+  total: 1024 * 1024 * 1, // 1 MB file size
+} as ProgressEvent<FileReader>;
+
 describe("readImageFileMetadata", () => {
+  let fileReaderMock: any;
+  let imageMock: any;
+
   const mockFile = new File(["dummy content"], "example.png", {
     type: "image/png",
   });
 
-  it("should return correct metadata for a valid image file", async () => {
-    const fileReaderMock = {
+  beforeEach(() => {
+    // Mocking FileReader
+    fileReaderMock = {
       readAsDataURL: jest.fn(),
-      onload: jest.fn(),
+      onload: jest.fn(() => console.log("fileReaderMock.onload called")),
     };
 
     global.FileReader = jest.fn(
       () => fileReaderMock as unknown as FileReader
     ) as unknown as typeof FileReader;
+
     Object.assign(global.FileReader, {
       EMPTY: 0,
       LOADING: 1,
       DONE: 2,
     });
 
-    fileReaderMock.readAsDataURL.mockImplementation(() => {
-      const event = {
-        target: { result: "data:image/png;base64,dummy content" },
-        total: 1024,
-      } as ProgressEvent<FileReader>;
-      fileReaderMock.onload?.(event);
-    });
-
-    const imageMock = {
+    // Mocking Image
+    imageMock = {
       height: 100,
       width: 200,
-      onload: jest.fn(),
+      onload: jest.fn(() => console.log("imageMock.onload called")),
     };
 
     global.Image = jest.fn(
       () => imageMock as unknown as HTMLImageElement
     ) as unknown as jest.Mock;
+  });
+
+  it("should return correct metadata for a valid image file", async () => {
+    fileReaderMock.readAsDataURL.mockImplementation(() => {
+      const event = defaultEvent;
+      fileReaderMock.onload?.(event);
+    });
 
     setTimeout(() => {
       imageMock.onload?.();
@@ -48,7 +58,7 @@ describe("readImageFileMetadata", () => {
     const expectedMetadata: ImageFileMetadata = {
       height: 100,
       width: 200,
-      size: 1,
+      size: 1024,
       name: "example.png",
       extension: "png",
       src: "data:image/png;base64,dummy content",
@@ -57,4 +67,47 @@ describe("readImageFileMetadata", () => {
     const result = await readImageFileMetadata(mockFile);
     expect(result).toEqual(expectedMetadata);
   });
+
+  it("should return null if validation fails due to file size", async () => {
+    fileReaderMock.readAsDataURL.mockImplementation(() => {
+      const event = defaultEvent;
+      fileReaderMock.onload?.(event);
+    });
+
+    setTimeout(() => {
+      imageMock.onload?.();
+    }, 0);
+
+    const result = await readImageFileMetadata(mockFile, { size: 100 }); // 100 KB max size
+    expect(result).toBeNull();
+  });
+
+  it("should return null if validation fails due to file width", async () => {
+    fileReaderMock.readAsDataURL.mockImplementation(() => {
+      const event = defaultEvent;
+      fileReaderMock.onload?.(event);
+    });
+
+    setTimeout(() => {
+      imageMock.onload?.();
+    }, 0);
+
+    const result = await readImageFileMetadata(mockFile, { width: 100 }); // width 100px 제한
+    expect(result).toBeNull();
+  });
+  it("should return null if validation fails due to file height", async () => {
+    fileReaderMock.readAsDataURL.mockImplementation(() => {
+      const event = defaultEvent;
+      fileReaderMock.onload?.(event);
+    });
+
+    setTimeout(() => {
+      imageMock.onload?.();
+    }, 0);
+
+    const result = await readImageFileMetadata(mockFile, { width: 50 }); // height 50px 제한
+    expect(result).toBeNull();
+  });
 });
+
+//todo onError함수 실행했는지 체크하는 테스트 코드 추가
