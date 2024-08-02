@@ -50,6 +50,14 @@ export const readImageFileMetadata = (
   });
 };
 
+export const checkFileType = (inputEl: HTMLInputElement) => {
+  if (inputEl.type === "file") return true;
+  else {
+    console.error("The input type is not file");
+    return false;
+  }
+};
+
 const useImageMetadata = ({ validateOptions }: Props | undefined = {}) => {
   const ref = useRef<HTMLInputElement>(null);
 
@@ -69,7 +77,11 @@ const useImageMetadata = ({ validateOptions }: Props | undefined = {}) => {
 
   useEffect(() => {
     const fileInput = ref.current;
-    if (fileInput && !fileInput.dataset.listenerAdded) {
+    if (
+      fileInput &&
+      !fileInput.dataset.listenerAdded &&
+      checkFileType(fileInput)
+    ) {
       // 이벤트 리스너 등록
       fileInput.addEventListener("change", handleFileChange);
       // 컴포넌트 언마운트 시 이벤트 리스너 제거
