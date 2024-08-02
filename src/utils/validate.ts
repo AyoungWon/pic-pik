@@ -31,7 +31,7 @@ const handleError = ({
   const errorParams: ValidateError = { field, selectedFileValue: value, max };
   if (errorHandler) errorHandler(errorParams);
   else
-    window.alert(
+    console.error(
       `이미지 파일의 ${field}는 ${max}${unit ?? ""}보다 작거나 같아야합니다.`
     );
 };

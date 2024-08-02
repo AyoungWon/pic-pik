@@ -205,7 +205,7 @@ validateOptions={{
 
 ```js
 () =>
-  window.alert(
+  console.error(
     `이미지 파일의 ${field}는 ${max}${unit ?? ""}보다 작거나 같아야합니다.`
   );
 
