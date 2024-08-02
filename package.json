@@ -46,6 +46,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Ayoung Won",
+  "license": "MIT"
 }
