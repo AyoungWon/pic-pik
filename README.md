@@ -51,7 +51,7 @@ npm install pic-pik
 
 ### validateOptions(optional)
 
-`validateOptions`으로 `width, height, size(용량)`을 제한할 수 있습니다.
+`validateOptions`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다.
 
 ```js
 <ImageUploader
@@ -139,7 +139,7 @@ return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
 
 ### validateOptions
 
-`useImageMetadata`에 v`alidateOptions`를 전달하여, `width, height, size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
+`useImageMetadata`에 `validateOptions`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
 
 ```js
 const { ref, imageMetadata } = useImageMetadata({
@@ -149,3 +149,79 @@ const { ref, imageMetadata } = useImageMetadata({
   },
 });
 ```
+
+## validateOptions 상세
+
+`validateOptions`로 제한할 있는 필드는 `width`, `height`, `size` 총 3가지 입니다. 각 필드는 optional값이므로 필요한 경우에만 사용할 수 있습니다.
+
+### max 제한하기
+
+모든 필드는 값과 객체, 2가지 방법으로 제한할 수 있습니다.
+
+```js
+// max 값으로 제한하기
+const validateOptions = { width: 300, height: 500, size: 1024 };
+const validateOptions = { height: 500, size: 1024 };
+const validateOptions = { width: 300 };
+const validateOptions = { height: 500 };
+```
+
+```js
+// condition 객체로 제한하기
+const validateOptions = {
+  width: { max: 300, onError: (error) => console.log("width error", error) },
+  height: { max: 5000 },
+};
+
+// max와 condition 객체 홉합 사용
+const validateOptions = {
+  width: 500,
+  height: { max: 5000, onError: (error) => console.log("height error", error) },
+};
+```
+
+### onError
+
+`validationOptions`의 항목에 `condition` 객체를 사용하고, `max`값을 초과할 경우 실행되는 `onError`가 실행됩니다. `onError`의 인자로 전달되는 `error` 객체의 내용은 다음과 같습니다.
+
+```js
+validateOptions={{
+    width: {
+      max: 3000,
+      onError: (error) => {
+        console.log(error);
+        // {field:"width", max: 3000, selectedFileValue: 3600}
+      },
+    },
+    height: 3000,
+  }}
+```
+
+- `field`: error가 발생한 필드 값
+- `max`: 제한한 값
+- `selectedFileValue`: 선택된 파일의 해당 필드 값
+
+`condition` 객체의 `onError`는 `optional` 값이며, 입력하지 않을 경우 default 함수는 다음과 같습니다.
+
+```js
+() =>
+  window.alert(
+    `이미지 파일의 ${field}는 ${max}${unit ?? ""}보다 작거나 같아야합니다.`
+  );
+
+// ex
+// 이미지 파일의 width는 500px보다 작거나 같아야합니다.
+// 이미지 파일의 size는 1024kb보다 작거나 같아야합니다.
+```
+
+## unit
+
+각 필드에 해당하는 단위는 다음과 같습니다.
+
+- `width`: `px`
+- `height`: `px`
+- `size`: `kb`
+
+# License
+
+This project is licensed under the terms of the MIT license.
