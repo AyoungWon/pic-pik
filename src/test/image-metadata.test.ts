@@ -5,7 +5,6 @@ import {
 
 const defaultEvent = {
   target: { result: "data:image/png;base64,dummy content" },
-  total: 1024 * 1024 * 1, // 1 MB file size
 } as ProgressEvent<FileReader>;
 
 describe("readImageFileMetadata", () => {
@@ -15,6 +14,11 @@ describe("readImageFileMetadata", () => {
   const mockFile = new File(["dummy content"], "example.png", {
     type: "image/png",
   });
+
+  Object.defineProperty(mockFile, "size", {
+    value: 1024 * 1024,
+    writable: false,
+  }); // 1MB 크기 설정
 
   beforeEach(() => {
     // Mocking FileReader
@@ -58,7 +62,7 @@ describe("readImageFileMetadata", () => {
     const expectedMetadata: ImageFileMetadata = {
       height: 100,
       width: 200,
-      size: 1024,
+      size: 1024 * 1024,
       name: "example.png",
       extension: "png",
       src: "data:image/png;base64,dummy content",
@@ -78,7 +82,7 @@ describe("readImageFileMetadata", () => {
       imageMock.onload?.();
     }, 0);
 
-    const result = await readImageFileMetadata(mockFile, { size: 100 }); // 100 KB max size
+    const result = await readImageFileMetadata(mockFile, { size: 10 }); // 100 KB max size
     expect(result).toBeNull();
   });
 

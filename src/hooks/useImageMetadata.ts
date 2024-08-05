@@ -29,7 +29,7 @@ export const readImageFileMetadata = (
         const metaData: ImageFileMetadata = {
           height: image.height,
           width: image.width,
-          size: Math.ceil(e.total / 1024),
+          size: file.size,
           name: file.name,
           extension: (file.name.split(".").pop() ?? "").toLowerCase(),
           src: image.src,

@@ -75,7 +75,12 @@ export const validateImageFile = (
       condition: option.height,
       unit: "px",
     },
-    { field: "size", value: metaData.size, condition: option.size, unit: "kb" },
+    {
+      field: "size",
+      value: metaData.size,
+      condition: option.size,
+      unit: "bytes",
+    },
   ];
 
   return validations.every(

@@ -211,7 +211,7 @@ limit={{
 
 // ex
 // 이미지 파일의 width는 500px보다 작거나 같아야합니다.
-// 이미지 파일의 size는 1024kb보다 작거나 같아야합니다.
+// 이미지 파일의 size는 1024bytes보다 작거나 같아야합니다.
 ```
 
 ## unit
@@ -220,7 +220,7 @@ limit={{
 
 - `width`: `px`
 - `height`: `px`
-- `size`: `kb`
+- `size`: `byte`
 
 # License
 
