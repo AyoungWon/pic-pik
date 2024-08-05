@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { validateImageFile, type ValidateOptions } from "../utils/validate";
+import { validateImageFile, type Limit } from "../utils/validate";
 
 interface Props {
-  validateOptions?: ValidateOptions;
+  limit?: Limit;
 }
 
 export interface ImageFileMetadata {
@@ -16,7 +16,7 @@ export interface ImageFileMetadata {
 
 export const readImageFileMetadata = (
   file: File,
-  validateOptions?: ValidateOptions
+  limit?: Limit
 ): Promise<ImageFileMetadata | null> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -35,8 +35,8 @@ export const readImageFileMetadata = (
           src: image.src,
         };
 
-        if (validateOptions) {
-          const validatePassed = validateImageFile(validateOptions, metaData);
+        if (limit) {
+          const validatePassed = validateImageFile(limit, metaData);
           if (!validatePassed) return resolve(null);
         }
         resolve(metaData);
@@ -58,7 +58,7 @@ export const checkFileType = (inputEl: HTMLInputElement) => {
   }
 };
 
-const useImageMetadata = ({ validateOptions }: Props | undefined = {}) => {
+const useImageMetadata = ({ limit }: Props | undefined = {}) => {
   const ref = useRef<HTMLInputElement>(null);
 
   const [imageMetadata, setImageMetadata] = useState<ImageFileMetadata | null>(
@@ -70,7 +70,7 @@ const useImageMetadata = ({ validateOptions }: Props | undefined = {}) => {
     const file = target.files?.[0];
 
     if (file) {
-      const metaData = await readImageFileMetadata(file, validateOptions);
+      const metaData = await readImageFileMetadata(file, limit);
       setImageMetadata(metaData);
     }
   };

@@ -23,7 +23,7 @@ npm install pic-pik
   onMetadataLoaded={(data) => {
     console.log(data);
   }}
-  validateOptions={{
+  limit={{
     width: {
       max: 3000,
       onError: (error) => {
@@ -49,13 +49,13 @@ npm install pic-pik
 </ImageUploader>
 ```
 
-### validateOptions(optional)
+### limit(optional)
 
-`validateOptions`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다.
+`limit`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다.
 
 ```js
 <ImageUploader
-  validateOptions={{
+  limit={{
     width: {
       max: 3000,
       onError: (error) => {
@@ -92,7 +92,7 @@ npm install pic-pik
 
 ```js
 const { ref, imageMetadata } = useImageMetadata({
-  validateOptions: {
+  limit: {
     width: 1000,
     height: { max: 2000, onError: (error) => console.log(error) },
   },
@@ -137,22 +137,22 @@ useEffect(() => {
 return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
 ```
 
-### validateOptions
+### limit
 
-`useImageMetadata`에 `validateOptions`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
+`useImageMetadata`에 `limit`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
 
 ```js
 const { ref, imageMetadata } = useImageMetadata({
-  validateOptions: {
+  limit: {
     width: 1000,
     height: { max: 2000, onError: (error) => console.log(error) },
   },
 });
 ```
 
-## validateOptions 상세
+## limit 상세
 
-`validateOptions`로 제한할 있는 필드는 `width`, `height`, `size` 총 3가지 입니다. 각 필드는 optional값이므로 필요한 경우에만 사용할 수 있습니다.
+`limit`로 제한할 있는 필드는 `width`, `height`, `size` 총 3가지 입니다. 각 필드는 optional값이므로 필요한 경우에만 사용할 수 있습니다.
 
 ### max 제한하기
 
@@ -160,21 +160,21 @@ const { ref, imageMetadata } = useImageMetadata({
 
 ```js
 // max 값으로 제한하기
-const validateOptions = { width: 300, height: 500, size: 1024 };
-const validateOptions = { height: 500, size: 1024 };
-const validateOptions = { width: 300 };
-const validateOptions = { height: 500 };
+const limit = { width: 300, height: 500, size: 1024 };
+const limit = { height: 500, size: 1024 };
+const limit = { width: 300 };
+const limit = { height: 500 };
 ```
 
 ```js
 // condition 객체로 제한하기
-const validateOptions = {
+const limit = {
   width: { max: 300, onError: (error) => console.log("width error", error) },
   height: { max: 5000 },
 };
 
 // max와 condition 객체 홉합 사용
-const validateOptions = {
+const limit = {
   width: 500,
   height: { max: 5000, onError: (error) => console.log("height error", error) },
 };
@@ -185,7 +185,7 @@ const validateOptions = {
 `validationOptions`의 항목에 `condition` 객체를 사용하고, `max`값을 초과할 경우 실행되는 `onError`가 실행됩니다. `onError`의 인자로 전달되는 `error` 객체의 내용은 다음과 같습니다.
 
 ```js
-validateOptions={{
+limit={{
     width: {
       max: 3000,
       onError: (error) => {

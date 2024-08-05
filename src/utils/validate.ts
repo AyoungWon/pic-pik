@@ -9,7 +9,7 @@ interface ValidateError {
 type NumberOption = number | { max: number; onError?: ErrorHandler };
 
 type ErrorHandler = (error: ValidateError) => void;
-export interface ValidateOptions {
+export interface Limit {
   width?: NumberOption;
   height?: NumberOption;
   size?: NumberOption;
@@ -54,7 +54,7 @@ const validateOption = (
   return true;
 };
 export const validateImageFile = (
-  option: ValidateOptions,
+  option: Limit,
   metaData: ImageFileMetadata
 ) => {
   const validations: {

@@ -13,7 +13,7 @@ const ImageUploadSample = () => {
         onMetadataLoaded={(data) => {
           setMetadata(data);
         }}
-        validateOptions={{
+        limit={{
           width: {
             max: 3000,
             onError: (error) => {
