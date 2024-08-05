@@ -12,8 +12,6 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@emotion/react": "^11.0.0",
-    "@emotion/styled": "^11.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
@@ -33,7 +31,6 @@
     "style-loader": "^3.0.0",
     "ts-jest": "^29.2.4",
     "ts-loader": "^9.5.1",
-    "ts-node": "^10.9.2",
     "tsx": "^4.16.5",
     "typescript": "^5.5.4",
     "webpack": "^5.0.0",

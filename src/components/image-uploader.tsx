@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import React, {
   ReactElement,
   ReactNode,
@@ -57,17 +55,20 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   return (
     <label style={style}>
-      <input type="file" accept={accept} css={_hidden} ref={ref} />
+      <input
+        type="file"
+        accept={accept}
+        style={{
+          visibility: "hidden",
+          maxWidth: 0,
+          maxHeight: 0,
+          overflow: "hidden",
+        }}
+        ref={ref}
+      />
       {extendedChildren}
     </label>
   );
 };
 
 export default ImageUploader;
-
-const _hidden = css`
-  visibility: hidden;
-  max-width: 0;
-  max-height: 0;
-  overflow: hidden;
-`;
