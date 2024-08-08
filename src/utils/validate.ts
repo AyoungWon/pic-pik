@@ -1,4 +1,4 @@
-import { type ImageFileMetadata } from "../hooks/useImageMetadata";
+import { type ImageFileMetadata } from "./readImageMetadata";
 
 interface ValidateError {
   field: string;
