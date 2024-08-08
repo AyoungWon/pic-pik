@@ -1,3 +1,5 @@
+import { ImageFileMetadata } from "./readImageMetadata";
+
 interface AspectRatioWidth {
   mode: "aspectRatio";
   width: number;
@@ -68,12 +70,12 @@ const calculateResizeDimensions = (
 };
 
 export const getResizedImageFile = (
-  file: File,
+  metadata: ImageFileMetadata,
   option: ResizeOption
 ): Promise<File | null> =>
   new Promise((resolve, reject) => {
     const img = new Image();
-    img.src = URL.createObjectURL(file);
+    img.src = metadata.src; // src에서 이미지를 로드
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
@@ -85,8 +87,8 @@ export const getResizedImageFile = (
       }
 
       const { targetWidth, targetHeight } = calculateResizeDimensions(
-        img.width,
-        img.height,
+        metadata.width,
+        metadata.height,
         option
       );
 
@@ -97,15 +99,15 @@ export const getResizedImageFile = (
 
       canvas.toBlob((resizedBlob) => {
         if (resizedBlob) {
-          const resizedFile = new File([resizedBlob], file.name, {
-            type: file.type,
-            lastModified: file.lastModified,
+          const resizedFile = new File([resizedBlob], metadata.name, {
+            type: `image/${metadata.extension}`,
+            lastModified: Date.now(), // 원본 파일의 마지막 수정 시간을 유지할 수 없는 경우
           });
           resolve(resizedFile);
         } else {
           reject(new Error("Failed to create Blob from canvas"));
         }
-      }, file.type);
+      }, `image/${metadata.extension}`);
     };
 
     img.onerror = () => {
@@ -113,14 +115,17 @@ export const getResizedImageFile = (
     };
   });
 
-export const resizeImage = async (file: File, option: ResizeOption) => {
+export const resizeImage = async (
+  metadata: ImageFileMetadata,
+  option: ResizeOption
+) => {
   let attempt = 0;
   let result: File | null = null;
 
   // attempt를 인자로 받을까?
   while (attempt < 3 && !result) {
     try {
-      result = await getResizedImageFile(file, option);
+      result = await getResizedImageFile(metadata, option);
     } catch (error) {
       console.warn(`Attempt ${attempt + 1} failed. Retrying...`, error);
     }
