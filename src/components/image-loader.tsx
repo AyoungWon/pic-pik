@@ -12,7 +12,7 @@ import useImageMetadata, {
 } from "../hooks/useImageMetadata";
 import { type Limit } from "../utils/validate";
 
-interface ImageUploaderProps {
+interface ImageLoaderProps {
   accept?: string | undefined;
   style?: React.CSSProperties | undefined;
   children?: ReactNode;
@@ -20,7 +20,7 @@ interface ImageUploaderProps {
   limit?: Limit;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({
+const ImageLoader: React.FC<ImageLoaderProps> = ({
   accept,
   style,
   children,
@@ -71,4 +71,4 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   );
 };
 
-export default ImageUploader;
+export default ImageLoader;

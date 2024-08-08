@@ -15,10 +15,10 @@ npm install pic-pik
 
 # 사용 예시
 
-## ImageUploader 컴포넌트를 사용하기
+## ImageLoader 컴포넌트를 사용하기
 
 ```js
-<ImageUploader
+<ImageLoader
   accept=".jpg, .jpeg"
   onMetadataLoaded={(data) => {
     console.log(data);
@@ -34,7 +34,7 @@ npm install pic-pik
   }}
 >
   <button>Select Image File</button>
-</ImageUploader>
+</ImageLoader>
 ```
 
 ### accept(optional, default: image/\*)
@@ -42,11 +42,11 @@ npm install pic-pik
 `accept`를 사용하여 허용할 이미지 파일 확장자를 지정합니다.
 
 ```js
-<ImageUploader
+<ImageLoader
   accept=".jpg, .jpeg" // .png, .webp, .gif...
 >
   Select
-</ImageUploader>
+</ImageLoader>
 ```
 
 ### limit(optional)
@@ -54,7 +54,7 @@ npm install pic-pik
 `limit`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다.
 
 ```js
-<ImageUploader
+<ImageLoader
   limit={{
     width: {
       max: 3000,
@@ -75,7 +75,7 @@ npm install pic-pik
 `onMetadataLoaded`를 이용하여 image 파일 선택후 파일의 `metadata`를 알아 낼 수 있습니다.
 
 ```js
-<ImageUploader
+<ImageLoader
   accept=".jpg, .jpeg"
   onMetadataLoaded={(data) => {
     console.log(data);
@@ -83,7 +83,7 @@ npm install pic-pik
   }}
 >
   <button>Select Image File</button>
-</ImageUploader>
+</ImageLoader>
 ```
 
 ## useImageMetadata hook 사용하기
