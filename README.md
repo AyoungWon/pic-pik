@@ -86,12 +86,12 @@ npm install pic-pik
 </ImageLoader>
 ```
 
-## useImageMetadata hook 사용하기
+## useImage hook 사용하기
 
-`useImageMetadata`를 사용하여 자유롭게 `input`을 커스터마이징 할 수 있습니다.
+`useImage`를 사용하여 자유롭게 `input`을 커스터마이징 할 수 있습니다.
 
 ```js
-const { ref, imageMetadata } = useImageMetadata({
+const { ref, metadata } = useImage({
   limit: {
     width: 1000,
     height: { max: 2000, onError: (error) => console.log(error) },
@@ -101,10 +101,10 @@ const { ref, imageMetadata } = useImageMetadata({
 return (
   <div style={{ display: "flex", flexDirection: "column" }}>
     <input ref={ref} type="file" accept=".jpg, .jpeg" />
-    {imageMetadata && (
+    {metadata && (
       <img
-        style={{ width: imageMetadata.width, height: imageMetadata.height }}
-        src={imageMetadata.src}
+        style={{ width: metadata.width, height: metadata.height }}
+        src={metadata.src}
         alt="image file"
       />
     )}
@@ -114,35 +114,35 @@ return (
 
 ### ref
 
-`input` 태그의 ref에 `useImageMetadata`로부터 받은 `ref`를 전달합니다.
+`input` 태그의 ref에 `useImage`로부터 받은 `ref`를 전달합니다.
 
 ```js
-const { ref } = useImageMetadata();
+const { ref } = useImage();
 
 return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
 ```
 
-### imageMetadata
+### metadata
 
-`ref`로 참조한 file `input`을 사용하여 파일을 선택한 경우, `imageMetadata`로 해당 이미지 파일의 관련 metadata를 조회 수 있습니다.
+`ref`로 참조한 file `input`을 사용하여 파일을 선택한 경우, `metadata`로 해당 이미지 파일의 관련 metadata를 조회 수 있습니다.
 
 ```js
-const { ref, imageMetadata } = useImageMetadata();
+const { ref, metadata } = useImage();
 
 useEffect(() => {
-  if (imageMetadata) console.log(imageMetadata);
+  if (metadata) console.log(metadata);
   // result: {width: 320, height: 400, extension:'jpg', name:'test1.jpg',src:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...'}
-}, [imageMetadata]);
+}, [metadata]);
 
 return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
 ```
 
 ### limit
 
-`useImageMetadata`에 `limit`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
+`useImage`에 `limit`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
 
 ```js
-const { ref, imageMetadata } = useImageMetadata({
+const { ref, metadata } = useImage({
   limit: {
     width: 1000,
     height: { max: 2000, onError: (error) => console.log(error) },
@@ -182,7 +182,7 @@ const limit = {
 
 ### onError
 
-`validationOptions`의 항목에 `condition` 객체를 사용하고, `max`값을 초과할 경우 실행되는 `onError`가 실행됩니다. `onError`의 인자로 전달되는 `error` 객체의 내용은 다음과 같습니다.
+`limit`의 항목에 `condition` 객체를 사용하고, `max`값을 초과할 경우 실행되는 `onError`가 실행됩니다. `onError`의 인자로 전달되는 `error` 객체의 내용은 다음과 같습니다.
 
 ```js
 limit={{
