@@ -10,24 +10,24 @@ import React, {
 import useImageMetadata, {
   type ImageFileMetadata,
 } from "../hooks/useImageMetadata";
-import { type ValidateOptions } from "../utils/validate";
+import { type Limit } from "../utils/validate";
 
-interface ImageUploaderProps {
+interface ImageLoaderProps {
   accept?: string | undefined;
   style?: React.CSSProperties | undefined;
   children?: ReactNode;
   onMetadataLoaded?: (metadata: ImageFileMetadata) => void;
-  validateOptions?: ValidateOptions;
+  limit?: Limit;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({
+const ImageLoader: React.FC<ImageLoaderProps> = ({
   accept,
   style,
   children,
-  validateOptions,
+  limit,
   onMetadataLoaded,
 }) => {
-  const { ref, imageMetadata } = useImageMetadata({ validateOptions });
+  const { ref, imageMetadata } = useImageMetadata({ limit });
   const extendedChildren = useMemo(
     () =>
       React.Children.map(children, (child) => {
@@ -71,4 +71,4 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   );
 };
 
-export default ImageUploader;
+export default ImageLoader;

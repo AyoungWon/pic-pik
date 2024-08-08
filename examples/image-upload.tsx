@@ -1,5 +1,5 @@
 import React from "react";
-import ImageUploader from "../src/components/image-uploader"; //배포하고 path 바꾸기
+import ImageLoader from "../src/components/image-uploader"; //배포하고 path 바꾸기
 import { useState } from "react";
 import { type ImageFileMetadata } from "../src/hooks/useImageMetadata"; //배포하고 path 바꾸기
 
@@ -8,12 +8,12 @@ const ImageUploadSample = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <ImageUploader
+      <ImageLoader
         accept=".jpg, .jpeg"
         onMetadataLoaded={(data) => {
           setMetadata(data);
         }}
-        validateOptions={{
+        limit={{
           width: {
             max: 3000,
             onError: (error) => {
@@ -28,7 +28,7 @@ const ImageUploadSample = () => {
         <button>
           {imageMetadata ? "reselect Image File" : "Select Image File"}
         </button>
-      </ImageUploader>
+      </ImageLoader>
       {imageMetadata && (
         <img
           style={{ width: imageMetadata.width, height: imageMetadata.height }}

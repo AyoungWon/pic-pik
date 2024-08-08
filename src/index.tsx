@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import ImageUploader from "./components/image-uploader";
+import ImageLoader from "./components/image-loader";
 import useImageMetadata from "./hooks/useImageMetadata";
 
 const App = () => {
@@ -12,4 +12,4 @@ if (container) {
   root.render(<App />);
 }
 
-export { ImageUploader, useImageMetadata };
+export { ImageLoader, useImageMetadata };

@@ -3,7 +3,7 @@ import useImageMetadata from "../src/hooks/useImageMetadata"; //배포하고 pat
 
 const ImageUploadRefSample = () => {
   const { ref, imageMetadata } = useImageMetadata({
-    validateOptions: {
+    limit: {
       width: 1000,
       height: { max: 2000, onError: (error) => console.log(error) },
     },
