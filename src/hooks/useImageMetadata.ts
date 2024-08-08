@@ -20,17 +20,19 @@ export const checkFileType = (inputEl: HTMLInputElement) => {
 const useImageMetadata = ({ limit }: Props | undefined = {}) => {
   const ref = useRef<HTMLInputElement>(null);
 
-  const [imageMetadata, setImageMetadata] = useState<ImageFileMetadata | null>(
-    null
-  );
+  const [image, setImage] = useState<{
+    file: File | null;
+    metadata: ImageFileMetadata | null;
+  }>({ file: null, metadata: null });
 
   const handleFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
 
     if (file) {
-      const metaData = await readImageMetadata(file, limit);
-      setImageMetadata(metaData);
+      const metadata = await readImageMetadata(file, limit);
+
+      setImage({ file, metadata });
     }
   };
 
@@ -50,7 +52,7 @@ const useImageMetadata = ({ limit }: Props | undefined = {}) => {
     }
   }, [ref.current]);
 
-  return { ref, imageMetadata };
+  return { ref, metadata: image.metadata, file: image.file };
 };
 
 export default useImageMetadata;
