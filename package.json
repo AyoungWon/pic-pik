@@ -1,15 +1,17 @@
 {
-  "name": "picpik",
+  "name": "pic-pik",
   "version": "0.1.0",
-  "description": "A React image file upload library with TypeScript and Emotion.js",
-  "types": "dist/index.d.ts",
+  "description": "A React image file load library with TypeScript and Emotion.js",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc",
     "preview": "vite preview",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "react": "^18.0.0",
@@ -30,9 +32,6 @@
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
   "author": "Ayoung Won",
   "license": "MIT"
 }

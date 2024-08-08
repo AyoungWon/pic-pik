@@ -1,14 +1,13 @@
 import React from "react";
-import useImageMetadata from "../src/hooks/useImageMetadata"; //배포하고 path 바꾸기
+import { useImageMetadata } from 'pic-pik"';
 
-const ImageUploadRefSample = () => {
+const App = () => {
   const { ref, imageMetadata } = useImageMetadata({
     limit: {
       width: 1000,
       height: { max: 2000, onError: (error) => console.log(error) },
     },
   });
-
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <input ref={ref} type="file" accept=".jpg, .jpeg" />
@@ -23,4 +22,4 @@ const ImageUploadRefSample = () => {
   );
 };
 
-export default ImageUploadRefSample;
+export default App;
