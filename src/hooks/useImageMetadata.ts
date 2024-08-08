@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { validateImageFile, type Limit } from "../utils/validate";
 
 interface Props {
@@ -52,8 +52,6 @@ export const readImageFileMetadata = (
 };
 
 const useImageMetadata = ({ limit, file }: Props | undefined = {}) => {
-  const ref = useRef<HTMLInputElement>(null);
-
   const [imageMetadata, setImageMetadata] = useState<ImageFileMetadata | null>(
     null
   );
@@ -67,7 +65,7 @@ const useImageMetadata = ({ limit, file }: Props | undefined = {}) => {
     if (file) handleFileChange(file);
   }, [file]);
 
-  return { ref, imageMetadata };
+  return { imageMetadata };
 };
 
 export default useImageMetadata;
