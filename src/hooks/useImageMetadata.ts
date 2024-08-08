@@ -3,6 +3,7 @@ import { validateImageFile, type Limit } from "../utils/validate";
 
 interface Props {
   limit?: Limit;
+  file?: File;
 }
 
 export interface ImageFileMetadata {
@@ -50,46 +51,21 @@ export const readImageFileMetadata = (
   });
 };
 
-export const checkFileType = (inputEl: HTMLInputElement) => {
-  if (inputEl.type === "file") return true;
-  else {
-    console.error("The input type is not file");
-    return false;
-  }
-};
-
-const useImageMetadata = ({ limit }: Props | undefined = {}) => {
+const useImageMetadata = ({ limit, file }: Props | undefined = {}) => {
   const ref = useRef<HTMLInputElement>(null);
 
   const [imageMetadata, setImageMetadata] = useState<ImageFileMetadata | null>(
     null
   );
 
-  const handleFileChange = async (event: Event) => {
-    const target = event.target as HTMLInputElement;
-    const file = target.files?.[0];
-
-    if (file) {
-      const metaData = await readImageFileMetadata(file, limit);
-      setImageMetadata(metaData);
-    }
+  const handleFileChange = async (file: File) => {
+    const metaData = await readImageFileMetadata(file, limit);
+    setImageMetadata(metaData);
   };
 
   useEffect(() => {
-    const fileInput = ref.current;
-    if (
-      fileInput &&
-      !fileInput.dataset.listenerAdded &&
-      checkFileType(fileInput)
-    ) {
-      // 이벤트 리스너 등록
-      fileInput.addEventListener("change", handleFileChange);
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
-      return () => {
-        fileInput.removeEventListener("change", handleFileChange);
-      };
-    }
-  }, [ref.current]);
+    if (file) handleFileChange(file);
+  }, [file]);
 
   return { ref, imageMetadata };
 };
