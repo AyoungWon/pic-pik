@@ -23,11 +23,11 @@ describe("readImageFileMetadata", () => {
   beforeEach(() => {
     // Mocking FileReader
     fileReaderMock = {
-      readAsDataURL: jest.fn(),
-      onload: jest.fn(() => console.log("fileReaderMock.onload called")),
+      readAsDataURL: vi.fn(),
+      onload: vi.fn(() => console.log("fileReaderMock.onload called")),
     };
 
-    global.FileReader = jest.fn(
+    global.FileReader = vi.fn(
       () => fileReaderMock as unknown as FileReader
     ) as unknown as typeof FileReader;
 
@@ -41,12 +41,13 @@ describe("readImageFileMetadata", () => {
     imageMock = {
       height: 100,
       width: 200,
-      onload: jest.fn(() => console.log("imageMock.onload called")),
+      onload: vi.fn(() => console.log("imageMock.onload called")),
     };
 
-    global.Image = jest.fn(
-      () => imageMock as unknown as HTMLImageElement
-    ) as unknown as jest.Mock;
+    global.Image = vi.fn(() => imageMock) as unknown as new (
+      width?: number,
+      height?: number
+    ) => HTMLImageElement;
   });
 
   it("should return correct metadata for a valid image file", async () => {
@@ -99,6 +100,7 @@ describe("readImageFileMetadata", () => {
     const result = await readImageFileMetadata(mockFile, { width: 100 }); // width 100px 제한
     expect(result).toBeNull();
   });
+
   it("should return null if validation fails due to file height", async () => {
     fileReaderMock.readAsDataURL.mockImplementation(() => {
       const event = defaultEvent;
@@ -109,7 +111,7 @@ describe("readImageFileMetadata", () => {
       imageMock.onload?.();
     }, 0);
 
-    const result = await readImageFileMetadata(mockFile, { width: 50 }); // height 50px 제한
+    const result = await readImageFileMetadata(mockFile, { height: 50 }); // height 50px 제한
     expect(result).toBeNull();
   });
 });
