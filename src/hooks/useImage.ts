@@ -17,7 +17,7 @@ export const checkFileType = (inputEl: HTMLInputElement) => {
   }
 };
 
-const useImageMetadata = ({ limit }: Props | undefined = {}) => {
+const useImage = ({ limit }: Props | undefined = {}) => {
   const ref = useRef<HTMLInputElement>(null);
 
   const [image, setImage] = useState<{
@@ -55,4 +55,4 @@ const useImageMetadata = ({ limit }: Props | undefined = {}) => {
   return { ref, metadata: image.metadata, file: image.file };
 };
 
-export default useImageMetadata;
+export default useImage;

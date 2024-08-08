@@ -1,7 +1,7 @@
 import {
   type ImageFileMetadata,
   readImageFileMetadata,
-} from "../hooks/useImageMetadata";
+} from "../hooks/useImage";
 
 const defaultEvent = {
   target: { result: "data:image/png;base64,dummy content" },

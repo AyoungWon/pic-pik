@@ -1,9 +1,27 @@
 import { createRoot } from "react-dom/client";
 import ImageLoader from "./components/image-loader";
-import useImageMetadata from "./hooks/useImageMetadata";
+import useImage from "./hooks/useImage";
+import useResizeImage from "./hooks/useResizeImage";
 
 const App = () => {
-  return <div style={{ display: "flex", flexDirection: "column" }}></div>;
+  const { ref, metadata: imageOriginalMetadata } = useImage();
+  const { metadata } = useResizeImage({
+    metadata: imageOriginalMetadata,
+    option: { mode: "aspectRatio", scale: 0.2 },
+  });
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <input type="file" ref={ref} />
+      {imageOriginalMetadata && (
+        <img
+          src={imageOriginalMetadata.src}
+          width={imageOriginalMetadata.width}
+        />
+      )}
+      {metadata && <img src={metadata.src} width={metadata.width} />}
+    </div>
+  );
 };
 
 const container = document.getElementById("root");
@@ -12,4 +30,4 @@ if (container) {
   root.render(<App />);
 }
 
-export { ImageLoader, useImageMetadata };
+export { ImageLoader, useImage };

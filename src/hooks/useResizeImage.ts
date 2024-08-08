@@ -10,7 +10,7 @@ interface Props {
   option: ResizeOption;
 }
 
-const useImageResize = ({ metadata, option }: Props) => {
+const useResizeImage = ({ metadata, option }: Props) => {
   const [resizedImage, setResizedImage] = useState<{
     file: File | null;
     metadata: ImageFileMetadata | null;
@@ -56,4 +56,4 @@ const useImageResize = ({ metadata, option }: Props) => {
   return resizedImage;
 };
 
-export default useImageResize;
+export default useResizeImage;
