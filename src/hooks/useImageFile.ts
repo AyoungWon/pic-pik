@@ -36,3 +36,5 @@ const useImageFile = () => {
 
   return { ref, file };
 };
+
+export default useImageFile;
