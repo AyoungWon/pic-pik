@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { type ResizeOption, resizeImage } from "../utils/resizeImage";
 import {
   ImageFileMetadata,
@@ -12,9 +12,26 @@ interface Props {
 
 const useImageResize = ({ metadata, option }: Props) => {
   const [resizedImage, setResizedImage] = useState<{
-    file: File;
-    metadata: ImageFileMetadata;
-  } | null>(null);
+    file: File | null;
+    metadata: ImageFileMetadata | null;
+  }>({ file: null, metadata: null });
+
+  const memoizedOption = useMemo(
+    () => option,
+    [
+      option.mode,
+      ...(option.mode === "aspectRatio" && "width" in option
+        ? [option.width]
+        : []),
+      ...(option.mode === "aspectRatio" && "height" in option
+        ? [option.height]
+        : []),
+      ...(option.mode === "aspectRatio" && "scale" in option
+        ? [option.scale]
+        : []),
+      ...(option.mode === "stretch" ? [option.width, option.height] : []),
+    ]
+  );
 
   const handleResizeImage = async (
     metadata: ImageFileMetadata,
@@ -33,8 +50,8 @@ const useImageResize = ({ metadata, option }: Props) => {
   };
 
   useEffect(() => {
-    if (metadata) handleResizeImage(metadata, option);
-  }, [metadata, option]);
+    if (metadata) handleResizeImage(metadata, memoizedOption);
+  }, [metadata, memoizedOption]);
 
   return resizedImage;
 };
