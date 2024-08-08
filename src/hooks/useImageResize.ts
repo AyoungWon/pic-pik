@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { type ResizeOption, resizeImage } from "../utils/resizeImage";
-import { ImageFileMetadata } from "../utils/readImageMetadata";
+import {
+  ImageFileMetadata,
+  readImageMetadata,
+} from "../utils/readImageMetadata";
 
 interface Props {
   metadata?: ImageFileMetadata | null;
@@ -8,16 +11,21 @@ interface Props {
 }
 
 const useImageResize = ({ metadata, option }: Props) => {
-  const [resizedFile, setResizedFile] = useState<File | null>(null);
+  const [resizedImage, setResizedImage] = useState<{
+    file: File;
+    metadata: ImageFileMetadata;
+  } | null>(null);
 
   const handleResizeImage = async (
     metadata: ImageFileMetadata,
     option: ResizeOption
   ) => {
     try {
-      const resized = await resizeImage(metadata, option);
-      if (resized) {
-        setResizedFile(resized);
+      const resizedFile = await resizeImage(metadata, option);
+      if (resizedFile) {
+        const resizedMetadata = await readImageMetadata(resizedFile);
+        if (resizedMetadata)
+          setResizedImage({ file: resizedFile, metadata: resizedMetadata });
       }
     } catch (error) {
       console.error("Error resizing image:", error);
@@ -28,7 +36,7 @@ const useImageResize = ({ metadata, option }: Props) => {
     if (metadata) handleResizeImage(metadata, option);
   }, [metadata, option]);
 
-  return { resizedFile };
+  return resizedImage;
 };
 
 export default useImageResize;
