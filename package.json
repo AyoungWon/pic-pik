@@ -2,7 +2,6 @@
   "name": "picpik",
   "version": "0.1.0",
   "description": "A React image file upload library with TypeScript and Emotion.js",
-  "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
