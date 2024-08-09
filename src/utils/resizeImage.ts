@@ -1,4 +1,4 @@
-import { ImageFileMetadata } from "./readImageMetadata";
+import { ImageMetadata } from "./readImageMetadata";
 
 interface AspectRatioWidth {
   mode: "aspectRatio";
@@ -70,7 +70,7 @@ const calculateResizeDimensions = (
 };
 
 export const getResizedImageFile = (
-  metadata: ImageFileMetadata,
+  metadata: ImageMetadata,
   option: ResizeOption
 ): Promise<File | null> =>
   new Promise((resolve, reject) => {
@@ -101,7 +101,7 @@ export const getResizedImageFile = (
         if (resizedBlob) {
           const resizedFile = new File([resizedBlob], metadata.name, {
             type: `image/${metadata.extension}`,
-            lastModified: Date.now(), // 원본 파일의 마지막 수정 시간을 유지할 수 없는 경우
+            lastModified: Date.now(),
           });
           resolve(resizedFile);
         } else {
@@ -116,7 +116,7 @@ export const getResizedImageFile = (
   });
 
 export const resizeImage = async (
-  metadata: ImageFileMetadata,
+  metadata: ImageMetadata,
   option: ResizeOption
 ) => {
   let attempt = 0;

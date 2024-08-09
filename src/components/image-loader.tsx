@@ -9,13 +9,13 @@ import React, {
 } from "react";
 import useImage from "../hooks/useImage";
 import { type Limit } from "../utils/validate";
-import { type ImageFileMetadata } from "../utils/readImageMetadata";
+import { type ImageMetadata } from "../utils/readImageMetadata";
 
 interface ImageLoaderProps {
   accept?: string | undefined;
   style?: React.CSSProperties | undefined;
   children?: ReactNode;
-  onMetadataLoaded?: (metadata: ImageFileMetadata) => void;
+  onMetadataLoaded?: (metadata: ImageMetadata) => void;
   limit?: Limit;
 }
 

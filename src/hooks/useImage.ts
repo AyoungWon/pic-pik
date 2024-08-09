@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { type Limit } from "../utils/validate";
 import {
-  type ImageFileMetadata,
+  type ImageMetadata,
   readImageMetadata,
 } from "../utils/readImageMetadata";
 
@@ -22,7 +22,7 @@ const useImage = ({ limit }: Props | undefined = {}) => {
 
   const [image, setImage] = useState<{
     file: File | null;
-    metadata: ImageFileMetadata | null;
+    metadata: ImageMetadata | null;
   }>({ file: null, metadata: null });
 
   const handleFileChange = async (event: Event) => {

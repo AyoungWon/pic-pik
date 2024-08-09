@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { type ImageFileMetadata, ImageLoader } from 'pic-pik"';
+import { type ImageMetadata, ImageLoader } from 'pic-pik"';
 
 const App = () => {
-  const [imageMetadata, setMetadata] = useState<ImageFileMetadata>();
+  const [imageMetadata, setMetadata] = useState<ImageMetadata>();
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>

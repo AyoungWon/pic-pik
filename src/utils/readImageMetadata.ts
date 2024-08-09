@@ -1,6 +1,6 @@
 import { validateImageFile, type Limit } from "./validate";
 
-export interface ImageFileMetadata {
+export interface ImageMetadata {
   height: number;
   width: number;
   size: number;
@@ -12,7 +12,7 @@ export interface ImageFileMetadata {
 export const readImageMetadata = (
   file: File,
   limit?: Limit
-): Promise<ImageFileMetadata | null> => {
+): Promise<ImageMetadata | null> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -21,7 +21,7 @@ export const readImageMetadata = (
       image.src = readerTarget.result as string;
 
       image.onload = () => {
-        const metaData: ImageFileMetadata = {
+        const metaData: ImageMetadata = {
           height: image.height,
           width: image.width,
           size: file.size,

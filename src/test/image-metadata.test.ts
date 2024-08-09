@@ -1,13 +1,13 @@
 import {
-  type ImageFileMetadata,
-  readImageFileMetadata,
-} from "../hooks/useImage";
+  type ImageMetadata,
+  readImageMetadata,
+} from "../utils/readImageMetadata";
 
 const defaultEvent = {
   target: { result: "data:image/png;base64,dummy content" },
 } as ProgressEvent<FileReader>;
 
-describe("readImageFileMetadata", () => {
+describe("readImageMetadata", () => {
   let fileReaderMock: any;
   let imageMock: any;
 
@@ -60,7 +60,7 @@ describe("readImageFileMetadata", () => {
       imageMock.onload?.();
     }, 0);
 
-    const expectedMetadata: ImageFileMetadata = {
+    const expectedMetadata: ImageMetadata = {
       height: 100,
       width: 200,
       size: 1024 * 1024,
@@ -69,7 +69,7 @@ describe("readImageFileMetadata", () => {
       src: "data:image/png;base64,dummy content",
     };
 
-    const result = await readImageFileMetadata(mockFile);
+    const result = await readImageMetadata(mockFile);
     expect(result).toEqual(expectedMetadata);
   });
 
@@ -83,7 +83,7 @@ describe("readImageFileMetadata", () => {
       imageMock.onload?.();
     }, 0);
 
-    const result = await readImageFileMetadata(mockFile, { size: 10 }); // 100 KB max size
+    const result = await readImageMetadata(mockFile, { size: 10 }); // 100 KB max size
     expect(result).toBeNull();
   });
 
@@ -97,7 +97,7 @@ describe("readImageFileMetadata", () => {
       imageMock.onload?.();
     }, 0);
 
-    const result = await readImageFileMetadata(mockFile, { width: 100 }); // width 100px 제한
+    const result = await readImageMetadata(mockFile, { width: 100 }); // width 100px 제한
     expect(result).toBeNull();
   });
 
@@ -111,7 +111,7 @@ describe("readImageFileMetadata", () => {
       imageMock.onload?.();
     }, 0);
 
-    const result = await readImageFileMetadata(mockFile, { height: 50 }); // height 50px 제한
+    const result = await readImageMetadata(mockFile, { height: 50 }); // height 50px 제한
     expect(result).toBeNull();
   });
 });
