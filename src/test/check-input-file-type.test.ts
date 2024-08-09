@@ -1,4 +1,4 @@
-import { checkFileType } from "../hooks/useImageMetadata";
+import { checkFileType } from "../hooks/useImage";
 
 describe("checkFileType", () => {
   it("should return true if the input type is file", () => {

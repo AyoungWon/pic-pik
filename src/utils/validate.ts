@@ -1,4 +1,4 @@
-import { type ImageFileMetadata } from "../hooks/useImageMetadata";
+import { type ImageMetadata } from "./readImageMetadata";
 
 interface ValidateError {
   field: string;
@@ -53,12 +53,9 @@ const validateOption = (
 
   return true;
 };
-export const validateImageFile = (
-  option: Limit,
-  metaData: ImageFileMetadata
-) => {
+export const validateImageFile = (option: Limit, metaData: ImageMetadata) => {
   const validations: {
-    field: keyof ImageFileMetadata;
+    field: keyof ImageMetadata;
     value: number;
     condition: NumberOption | undefined;
     unit?: string;

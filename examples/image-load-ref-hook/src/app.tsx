@@ -1,8 +1,8 @@
 import React from "react";
-import { useImageMetadata } from 'pic-pik"';
+import { useImage } from 'pic-pik"';
 
 const App = () => {
-  const { ref, imageMetadata } = useImageMetadata({
+  const { ref, imageMetadata } = useImage({
     limit: {
       width: 1000,
       height: { max: 2000, onError: (error) => console.log(error) },

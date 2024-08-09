@@ -1,10 +1,10 @@
 import React from "react";
 import ImageLoader from "../src/components/image-uploader"; //배포하고 path 바꾸기
 import { useState } from "react";
-import { type ImageFileMetadata } from "../src/hooks/useImageMetadata"; //배포하고 path 바꾸기
+import { type ImageMetadata } from "../src/hooks/useImage"; //배포하고 path 바꾸기
 
 const ImageUploadSample = () => {
-  const [imageMetadata, setMetadata] = useState<ImageFileMetadata>();
+  const [imageMetadata, setMetadata] = useState<ImageMetadata>();
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>

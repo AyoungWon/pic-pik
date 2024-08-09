@@ -7,16 +7,15 @@ import React, {
   useMemo,
   MouseEvent,
 } from "react";
-import useImageMetadata, {
-  type ImageFileMetadata,
-} from "../hooks/useImageMetadata";
+import useImage from "../hooks/useImage";
 import { type Limit } from "../utils/validate";
+import { type ImageMetadata } from "../utils/readImageMetadata";
 
 interface ImageLoaderProps {
   accept?: string | undefined;
   style?: React.CSSProperties | undefined;
   children?: ReactNode;
-  onMetadataLoaded?: (metadata: ImageFileMetadata) => void;
+  onMetadataLoaded?: (metadata: ImageMetadata) => void;
   limit?: Limit;
 }
 
@@ -27,7 +26,7 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
   limit,
   onMetadataLoaded,
 }) => {
-  const { ref, imageMetadata } = useImageMetadata({ limit });
+  const { ref, metadata } = useImage({ limit });
   const extendedChildren = useMemo(
     () =>
       React.Children.map(children, (child) => {
@@ -50,8 +49,8 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
     [children]
   );
   useEffect(() => {
-    if (imageMetadata && onMetadataLoaded) onMetadataLoaded(imageMetadata);
-  }, [imageMetadata, onMetadataLoaded]);
+    if (metadata && onMetadataLoaded) onMetadataLoaded(metadata);
+  }, [metadata, onMetadataLoaded]);
 
   return (
     <label style={style}>

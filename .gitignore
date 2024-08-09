@@ -23,6 +23,8 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
+*.temporary.ts
+*.temporary.tsx
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

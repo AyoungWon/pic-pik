@@ -1,119 +1,79 @@
 import {
-  type ImageFileMetadata,
-  readImageFileMetadata,
-} from "../hooks/useImageMetadata";
+  type ImageMetadata,
+  readImageMetadata,
+} from "../utils/readImageMetadata";
+import { describe, it, expect } from "vitest";
+const base64Image =
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/haljkcAAAAASUVORK5CYII=";
 
-const defaultEvent = {
-  target: { result: "data:image/png;base64,dummy content" },
-} as ProgressEvent<FileReader>;
-
-describe("readImageFileMetadata", () => {
-  let fileReaderMock: any;
-  let imageMock: any;
-
-  const mockFile = new File(["dummy content"], "example.png", {
-    type: "image/png",
-  });
-
-  Object.defineProperty(mockFile, "size", {
-    value: 1024 * 1024,
-    writable: false,
-  }); // 1MB 크기 설정
+describe("readImageMetadata", () => {
+  let mockFile: File;
+  let mockImage: HTMLImageElement;
+  const expectedMetadata: ImageMetadata = {
+    height: 100,
+    width: 100,
+    size: 1024 * 1024,
+    name: "example.png",
+    extension: "png",
+    src: `data:image/png;base64,${base64Image}`,
+  };
 
   beforeEach(() => {
-    // Mocking FileReader
-    fileReaderMock = {
-      readAsDataURL: vi.fn(),
-      onload: vi.fn(() => console.log("fileReaderMock.onload called")),
-    };
-
-    global.FileReader = vi.fn(
-      () => fileReaderMock as unknown as FileReader
-    ) as unknown as typeof FileReader;
-
-    Object.assign(global.FileReader, {
-      EMPTY: 0,
-      LOADING: 1,
-      DONE: 2,
+    // Base64 데이터를 디코딩하여 Blob으로 변환
+    const byteCharacters = atob(base64Image);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], {
+      type: `image/${expectedMetadata.extension}`,
+    });
+    mockFile = new File([blob], expectedMetadata.name, {
+      type: `image/${expectedMetadata.extension}`,
     });
 
-    // Mocking Image
-    imageMock = {
-      height: 100,
-      width: 200,
-      onload: vi.fn(() => console.log("imageMock.onload called")),
-    };
+    Object.defineProperty(mockFile, "size", {
+      value: expectedMetadata.size,
+      writable: false,
+    }); // 1MB 크기 설정
 
-    global.Image = vi.fn(() => imageMock) as unknown as new (
-      width?: number,
-      height?: number
-    ) => HTMLImageElement;
+    // Mocking the Image object and triggering onload manually
+    mockImage = new Image();
+
+    mockImage.addEventListener("load", () => {
+      mockImage.width = expectedMetadata.width;
+      mockImage.height = expectedMetadata.height;
+    });
+
+    mockImage.src = expectedMetadata.src;
+
+    // global Image를 mockImage로 대체
+    global.Image = vi.fn(() => mockImage) as unknown as typeof Image;
+
+    // 수동으로 load 이벤트 트리거
+    setTimeout(() => {
+      mockImage.dispatchEvent(new Event("load"));
+    }, 100);
   });
 
   it("should return correct metadata for a valid image file", async () => {
-    fileReaderMock.readAsDataURL.mockImplementation(() => {
-      const event = defaultEvent;
-      fileReaderMock.onload?.(event);
-    });
-
-    setTimeout(() => {
-      imageMock.onload?.();
-    }, 0);
-
-    const expectedMetadata: ImageFileMetadata = {
-      height: 100,
-      width: 200,
-      size: 1024 * 1024,
-      name: "example.png",
-      extension: "png",
-      src: "data:image/png;base64,dummy content",
-    };
-
-    const result = await readImageFileMetadata(mockFile);
+    const result = await readImageMetadata(mockFile);
     expect(result).toEqual(expectedMetadata);
   });
 
   it("should return null if validation fails due to file size", async () => {
-    fileReaderMock.readAsDataURL.mockImplementation(() => {
-      const event = defaultEvent;
-      fileReaderMock.onload?.(event);
-    });
-
-    setTimeout(() => {
-      imageMock.onload?.();
-    }, 0);
-
-    const result = await readImageFileMetadata(mockFile, { size: 10 }); // 100 KB max size
+    const result = await readImageMetadata(mockFile, { size: 10 }); // 100 KB max size
     expect(result).toBeNull();
   });
 
   it("should return null if validation fails due to file width", async () => {
-    fileReaderMock.readAsDataURL.mockImplementation(() => {
-      const event = defaultEvent;
-      fileReaderMock.onload?.(event);
-    });
-
-    setTimeout(() => {
-      imageMock.onload?.();
-    }, 0);
-
-    const result = await readImageFileMetadata(mockFile, { width: 100 }); // width 100px 제한
+    const result = await readImageMetadata(mockFile, { width: 50 }); // width 50px 제한
     expect(result).toBeNull();
   });
 
   it("should return null if validation fails due to file height", async () => {
-    fileReaderMock.readAsDataURL.mockImplementation(() => {
-      const event = defaultEvent;
-      fileReaderMock.onload?.(event);
-    });
-
-    setTimeout(() => {
-      imageMock.onload?.();
-    }, 0);
-
-    const result = await readImageFileMetadata(mockFile, { height: 50 }); // height 50px 제한
+    const result = await readImageMetadata(mockFile, { height: 50 }); // height 50px 제한
     expect(result).toBeNull();
   });
 });
-
-//todo onError함수 실행했는지 체크하는 테스트 코드 추가
