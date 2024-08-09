@@ -5,5 +5,8 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./src/setupTests.ts",
+    coverage: {
+      include: ["src/**"], // 'src' 폴더만 커버리지에 포함
+    },
   },
 });
