@@ -18,12 +18,13 @@
 
 # PicPik
 
-PicPik은 image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻을 수 있게 하는 오픈소스 라이브러리입니다.
+PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻고, 사이즈를 변경 가능하게 해주는 오픈소스 라이브러리입니다.
 
 # 기능
 
 - image 파일 데이터 제공(확장자, width, height, src, 파일 사이즈)
 - 파일에 대한 width, height, 확장자, 파일 사이즈 제한 가능
+- 불러온 이미지에 대한 Resize 기능
 
 # 설치 방법
 
@@ -31,7 +32,7 @@ PicPik은 image 파일 선택시 파일에 대한 데이터와 meta 정보를 �
 npm install pic-pik
 ```
 
-# 사용 예시
+# 사용 예시 : 이미지 파일 불러오기
 
 ## ImageLoader 컴포넌트를 사용하기
 
@@ -171,6 +172,27 @@ const { ref, metadata } = useImage({
     height: { max: 2000, onError: (error) => console.log(error) },
   },
 });
+```
+
+# 사용 예시 : 이미지 리사이즈 하기
+
+## useResizeImage hook
+
+[ImageLoader](#imageloader-컴포넌트를-사용하기) 혹은 [useImage](#useimage-hook-사용하기)를 통해 알아낸 `metadata`를 이용하여 이미지를 resize하는 것이 가능합니다.
+
+```js
+const { ref, metadata: originalMetadata } = useImage();
+const { metadata } = useResizeImage({
+  metadata: originalMetadata,
+  option: { mode: "aspectRatio", scale: 0.2 },
+});
+
+return (
+  <div style={{ display: "flex", flexDirection: "column" }}>
+    <input type="file" ref={ref} />
+    {metadata && <img src={metadata.src} width={metadata.width} />}
+  </div>
+);
 ```
 
 ## limit 상세
