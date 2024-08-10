@@ -45,6 +45,8 @@ npm install pic-pik
 
 ## ImageLoader 컴포넌트를 사용하기
 
+ImageLoader를 컴포넌트 안에 본인이 원하는 요소와 디자인을 적용하여 자유롭게 커스텀 사용이 가능합니다.
+
 ```js
 <ImageLoader
   accept=".jpg, .jpeg"
@@ -62,6 +64,11 @@ npm install pic-pik
   }}
 >
   <button>Select Image File</button>
+  /* <div>
+    <p>이미지의 제한 사이즈는 Width 3000px, height 3000px 이하입니다.</p>
+    <p>이곳을 눌러서 파일을 선택해주세요</p>
+  </div>
+  //원하는 다른 요소 custom하게 사용 가능 */
 </ImageLoader>
 ```
 
