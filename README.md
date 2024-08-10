@@ -1,24 +1,33 @@
-<!-- - [PicPik](#picpik)
-- [기능](#--)
-- [설치 방법](#-----)
-- [사용 예시](#-----)
-  * [ImageLoader 컴포넌트를 사용하기](#imageloader-----------)
-    + [accept](#accept)
-    + [limit](#limit)
-    + [onMetadataLoaded](#onmetadataloaded)
-  * [useImage hook 사용하기](#useimage-hook-----)
-    + [ref](#ref)
-    + [metadata](#metadata)
-    + [limit](#limit-1)
-  * [limit 상세](#limit---)
-    + [max 제한하기](#max-----)
-    + [onError](#onerror)
-  * [unit](#unit)
-- [License](#license) -->
-
 # PicPik
 
 PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻고, 사이즈를 변경 가능하게 해주는 오픈소스 라이브러리입니다.
+
+# 목차
+
+- [PicPik 소개](#picpik)
+- [목차](#목차)
+- [기능](#기능)
+- [설치 방법](#설치-방법)
+- [사용 예시 : 이미지 파일 불러오기](#사용-예시--이미지-파일-불러오기)
+  - [ImageLoader 컴포넌트를 사용하기](#imageloader-컴포넌트를-사용하기)
+    - [accept](#accept)
+    - [limit](#limit)
+    - [onMetadataLoaded](#onmetadataloaded)
+  - [useImage hook 사용하기](#imageloader-컴포넌트를-사용하기)
+    - [ref](#ref)
+    - [metadata](#metadata)
+    - [limit](#limit-1)
+- [사용 예시 : 이미지 리사이즈 하기](#사용-예시--이미지-리사이즈-하기)
+  - [useResizeImage hook 사용하기](#useresizeimage-hook-사용하기)
+  - [limit 상세](#limit-상세)
+    - [max 제한하기](#max-제한하기)
+    - [onError](#onerror)
+    - [unit](#unit)
+  - [ResizeOption](#resizeoption)
+    - [mode](#mode)
+    - [stretch](#stretch)
+    - [aspectRatio](#aspectratio)
+- [License](#license)
 
 # 기능
 
@@ -176,9 +185,10 @@ const { ref, metadata } = useImage({
 
 # 사용 예시 : 이미지 리사이즈 하기
 
-## useResizeImage hook
+## useResizeImage hook 사용하기
 
-[ImageLoader](#imageloader-컴포넌트를-사용하기) 혹은 [useImage](#useimage-hook-사용하기)를 통해 알아낸 `metadata`를 이용하여 이미지를 resize하는 것이 가능합니다.
+[ImageLoader](#imageloader-컴포넌트를-사용하기) 혹은 [useImage](#useimage-hook-사용하기)를 통해 알아낸 `metadata`를 이용하여 이미지를 resize하는 것이 가능합니다.<br/>
+resize하는 다양한 옵션은 [ResizeOption](#resizeoption)에서 확인 가능합니다.
 
 ```js
 const { ref, metadata: originalMetadata } = useImage();
@@ -194,6 +204,8 @@ return (
   </div>
 );
 ```
+
+- `useResizeImage`를 통해서 resize된 이미지의 `metadata`와 `File` 객체를 얻을 수 있습니다.
 
 ## limit 상세
 
@@ -259,13 +271,85 @@ limit={{
 // 이미지 파일의 size는 1024bytes보다 작거나 같아야합니다.
 ```
 
-## unit
+### unit
 
 각 필드에 해당하는 단위는 다음과 같습니다.
 
 - `width`: `px`
 - `height`: `px`
 - `size`: `byte`
+
+## ResizeOption
+
+이미지를 resize할때 어떤 방식과, 사이즈로 변경할지 지정하는 값입니다.
+
+### mode
+
+`mode`는 2가지가 있습니다. `mode`에 알맞는 변화시킬 값을 지정해줘야합니다.
+
+- `stretch` : 원본 이미지의 비율에 상관없이 지정한 값으로 이미지 사이즈가 변경됨
+- `aspectRatio` : 원본 이미지의 비율을 유지한 상태로 지정한 값에 맞춰 나머지도 함께 변경됨
+
+### stretch
+
+- `stretch` 모드의 경우 `width`, `height`을 지정할 수 있습니다. 각각의 `width`, `height`을 모두 지정할 수 있고, 혹은 1개만 지정할 수도 있습니다.
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "stretch", height: 200 },
+});
+
+//반환된 리사이즈 이미지는 width = 100px, height = 200px의 1:2 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "stretch", width: 200 },
+});
+
+//반환된 리사이즈 이미지는 width = 200px, height = 100px의 1:2 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "stretch", height: 200, width: 300 },
+});
+
+//반환된 리사이즈 이미지는 width = 200px, height = 300px의 2:3 비율
+```
+
+### aspectRatio
+
+- `aspectRatio` 모드의 경우 `width`, `height`, `scale`을 지정할 수 있으며, 3개 중의 한개의 값만 사용할 수 있습니다.
+
+- `scale`의 경우 원본 사이즈를 1로 보고 0.5일 경우 50%의 크기, 2일 경우 200% 크기를 의미합니다.
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "aspectRatio", height: 200 },
+});
+//반환된 리사이즈 이미지는 width = 200px, height = 200px의 1:1 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "aspectRatio", width: 50 },
+});
+//반환된 리사이즈 이미지는 width = 50px, height = 50px의 1:1 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "aspectRatio", scale: 0.2 },
+});
+//반환된 리사이즈 이미지는 width = 20px, height = 20px의 1:1 비율
+```
 
 # License
 
