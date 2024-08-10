@@ -1,11 +1,39 @@
 # PicPik
 
-PicPik은 image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻을 수 있게 하는 오픈소스 라이브러리입니다.
+PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻고, 사이즈를 변경 가능하게 해주는 오픈소스 라이브러리입니다.
 
-# 기본 기능
+# 목차
+
+- [PicPik 소개](#picpik)
+- [목차](#목차)
+- [기능](#기능)
+- [설치 방법](#설치-방법)
+- [사용 예시 : 이미지 파일 불러오기](#사용-예시--이미지-파일-불러오기)
+  - [ImageLoader 컴포넌트를 사용하기](#imageloader-컴포넌트를-사용하기)
+    - [accept](#accept)
+    - [limit](#limit)
+    - [onMetadataLoaded](#onmetadataloaded)
+  - [useImage hook 사용하기](#imageloader-컴포넌트를-사용하기)
+    - [ref](#ref)
+    - [metadata](#metadata)
+    - [limit](#limit-1)
+- [사용 예시 : 이미지 리사이즈 하기](#사용-예시--이미지-리사이즈-하기)
+  - [useResizeImage hook 사용하기](#useresizeimage-hook-사용하기)
+  - [limit 상세](#limit-상세)
+    - [max 제한하기](#max-제한하기)
+    - [onError](#onerror)
+    - [unit](#unit)
+  - [ResizeOption](#resizeoption)
+    - [mode](#mode)
+    - [stretch](#stretch)
+    - [aspectRatio](#aspectratio)
+- [License](#license)
+
+# 기능
 
 - image 파일 데이터 제공(확장자, width, height, src, 파일 사이즈)
 - 파일에 대한 width, height, 확장자, 파일 사이즈 제한 가능
+- 불러온 이미지에 대한 Resize 기능
 
 # 설치 방법
 
@@ -13,7 +41,7 @@ PicPik은 image 파일 선택시 파일에 대한 데이터와 meta 정보를 �
 npm install pic-pik
 ```
 
-# 사용 예시
+# 사용 예시 : 이미지 파일 불러오기
 
 ## ImageLoader 컴포넌트를 사용하기
 
@@ -37,21 +65,28 @@ npm install pic-pik
 </ImageLoader>
 ```
 
-### accept(optional, default: image/\*)
+### accept
 
-`accept`를 사용하여 허용할 이미지 파일 확장자를 지정합니다.
+`accept`를 사용하여 허용할 이미지 파일 확장자를 지정합니다. <br/>
+accept는 MDN의 accept 규칙을 따릅니다.[(HTML attribute: accept)](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
 
 ```js
 <ImageLoader
-  accept=".jpg, .jpeg" // .png, .webp, .gif...
+  accept=".jpg, .jpeg" // .png, .webp, .gif... or image/*
 >
   Select
 </ImageLoader>
 ```
 
-### limit(optional)
+- `accept` 속성은 `optional`이며 `"image/*"`을 기본값으로 합니다.
 
-`limit`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다.
+```js
+<ImageLoader> //모든 Image파일 확장자를 받음 Select</ImageLoader>
+```
+
+### limit
+
+`limit`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다. [limit 상세](#limit_상세)
 
 ```js
 <ImageLoader
@@ -67,8 +102,6 @@ npm install pic-pik
   }}
 >
 ```
-
-각 항목의 형태는 `number`이거나 `{max:number, onError?:(error:ValidateError)=>void}`형태입니다.
 
 ### onMetadataLoaded
 
@@ -139,7 +172,7 @@ return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
 
 ### limit
 
-`useImage`에 `limit`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
+`useImage`에 `limit`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다. [limit 상세](#limit_상세)
 
 ```js
 const { ref, metadata } = useImage({
@@ -150,9 +183,33 @@ const { ref, metadata } = useImage({
 });
 ```
 
+# 사용 예시 : 이미지 리사이즈 하기
+
+## useResizeImage hook 사용하기
+
+[ImageLoader](#imageloader-컴포넌트를-사용하기) 혹은 [useImage](#useimage-hook-사용하기)를 통해 알아낸 `metadata`를 이용하여 이미지를 resize하는 것이 가능합니다.<br/>
+resize하는 다양한 옵션은 [ResizeOption](#resizeoption)에서 확인 가능합니다.
+
+```js
+const { ref, metadata: originalMetadata } = useImage();
+const { metadata } = useResizeImage({
+  metadata: originalMetadata,
+  option: { mode: "aspectRatio", scale: 0.2 },
+});
+
+return (
+  <div style={{ display: "flex", flexDirection: "column" }}>
+    <input type="file" ref={ref} />
+    {metadata && <img src={metadata.src} width={metadata.width} />}
+  </div>
+);
+```
+
+- `useResizeImage`를 통해서 resize된 이미지의 `metadata`와 `File` 객체를 얻을 수 있습니다.
+
 ## limit 상세
 
-`limit`로 제한할 있는 필드는 `width`, `height`, `size` 총 3가지 입니다. 각 필드는 optional값이므로 필요한 경우에만 사용할 수 있습니다.
+`limit`로 제한할 있는 필드는 `width`, `height`, `size` 총 3가지 입니다. 각 필드는 `optional`값이므로 필요한 경우에만 사용할 수 있습니다.
 
 ### max 제한하기
 
@@ -214,13 +271,85 @@ limit={{
 // 이미지 파일의 size는 1024bytes보다 작거나 같아야합니다.
 ```
 
-## unit
+### unit
 
 각 필드에 해당하는 단위는 다음과 같습니다.
 
 - `width`: `px`
 - `height`: `px`
 - `size`: `byte`
+
+## ResizeOption
+
+이미지를 resize할때 어떤 방식과, 사이즈로 변경할지 지정하는 값입니다.
+
+### mode
+
+`mode`는 2가지가 있습니다. `mode`에 알맞는 변화시킬 값을 지정해줘야합니다.
+
+- `stretch` : 원본 이미지의 비율에 상관없이 지정한 값으로 이미지 사이즈가 변경됨
+- `aspectRatio` : 원본 이미지의 비율을 유지한 상태로 지정한 값에 맞춰 나머지도 함께 변경됨
+
+### stretch
+
+- `stretch` 모드의 경우 `width`, `height`을 지정할 수 있습니다. 각각의 `width`, `height`을 모두 지정할 수 있고, 혹은 1개만 지정할 수도 있습니다.
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "stretch", height: 200 },
+});
+
+//반환된 리사이즈 이미지는 width = 100px, height = 200px의 1:2 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "stretch", width: 200 },
+});
+
+//반환된 리사이즈 이미지는 width = 200px, height = 100px의 1:2 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "stretch", height: 200, width: 300 },
+});
+
+//반환된 리사이즈 이미지는 width = 200px, height = 300px의 2:3 비율
+```
+
+### aspectRatio
+
+- `aspectRatio` 모드의 경우 `width`, `height`, `scale`을 지정할 수 있으며, 3개 중의 한개의 값만 사용할 수 있습니다.
+
+- `scale`의 경우 원본 사이즈를 1로 보고 0.5일 경우 50%의 크기, 2일 경우 200% 크기를 의미합니다.
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "aspectRatio", height: 200 },
+});
+//반환된 리사이즈 이미지는 width = 200px, height = 200px의 1:1 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "aspectRatio", width: 50 },
+});
+//반환된 리사이즈 이미지는 width = 50px, height = 50px의 1:1 비율
+```
+
+```js
+const { metadata } = useResizeImage({
+  metadata: originalMetadata, //원본 이미지의 크기는 width = 100px, height = 100px의 1:1 비율
+  option: { mode: "aspectRatio", scale: 0.2 },
+});
+//반환된 리사이즈 이미지는 width = 20px, height = 20px의 1:1 비율
+```
 
 # License
 
