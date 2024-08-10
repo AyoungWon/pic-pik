@@ -1,8 +1,26 @@
+<!-- - [PicPik](#picpik)
+- [기능](#--)
+- [설치 방법](#-----)
+- [사용 예시](#-----)
+  * [ImageLoader 컴포넌트를 사용하기](#imageloader-----------)
+    + [accept](#accept)
+    + [limit](#limit)
+    + [onMetadataLoaded](#onmetadataloaded)
+  * [useImage hook 사용하기](#useimage-hook-----)
+    + [ref](#ref)
+    + [metadata](#metadata)
+    + [limit](#limit-1)
+  * [limit 상세](#limit---)
+    + [max 제한하기](#max-----)
+    + [onError](#onerror)
+  * [unit](#unit)
+- [License](#license) -->
+
 # PicPik
 
 PicPik은 image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻을 수 있게 하는 오픈소스 라이브러리입니다.
 
-# 기본 기능
+# 기능
 
 - image 파일 데이터 제공(확장자, width, height, src, 파일 사이즈)
 - 파일에 대한 width, height, 확장자, 파일 사이즈 제한 가능
@@ -37,21 +55,28 @@ npm install pic-pik
 </ImageLoader>
 ```
 
-### accept(optional, default: image/\*)
+### accept
 
-`accept`를 사용하여 허용할 이미지 파일 확장자를 지정합니다.
+`accept`를 사용하여 허용할 이미지 파일 확장자를 지정합니다. <br/>
+accept는 MDN의 accept 규칙을 따릅니다.[(HTML attribute: accept)](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
 
 ```js
 <ImageLoader
-  accept=".jpg, .jpeg" // .png, .webp, .gif...
+  accept=".jpg, .jpeg" // .png, .webp, .gif... or image/*
 >
   Select
 </ImageLoader>
 ```
 
-### limit(optional)
+- `accept` 속성은 `optional`이며 `"image/*"`을 기본값으로 합니다.
 
-`limit`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다.
+```js
+<ImageLoader> //모든 Image파일 확장자를 받음 Select</ImageLoader>
+```
+
+### limit
+
+`limit`으로 `width`, `height`, `size(용량)`을 제한할 수 있습니다. [limit 상세](#limit_상세)
 
 ```js
 <ImageLoader
@@ -67,8 +92,6 @@ npm install pic-pik
   }}
 >
 ```
-
-각 항목의 형태는 `number`이거나 `{max:number, onError?:(error:ValidateError)=>void}`형태입니다.
 
 ### onMetadataLoaded
 
@@ -139,7 +162,7 @@ return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
 
 ### limit
 
-`useImage`에 `limit`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다.
+`useImage`에 `limit`를 전달하여, `width`, `height`, `size(용량)`에 대한 제한과 에러 처리를 할 수 있습니다. [limit 상세](#limit_상세)
 
 ```js
 const { ref, metadata } = useImage({
@@ -152,7 +175,7 @@ const { ref, metadata } = useImage({
 
 ## limit 상세
 
-`limit`로 제한할 있는 필드는 `width`, `height`, `size` 총 3가지 입니다. 각 필드는 optional값이므로 필요한 경우에만 사용할 수 있습니다.
+`limit`로 제한할 있는 필드는 `width`, `height`, `size` 총 3가지 입니다. 각 필드는 `optional`값이므로 필요한 경우에만 사용할 수 있습니다.
 
 ### max 제한하기
 
