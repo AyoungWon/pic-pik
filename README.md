@@ -1,6 +1,6 @@
 # PicPik
 
-PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻고, 사이즈를 변경 가능하게 해주는 오픈소스 라이브러리입니다.
+PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 손쉽게 얻고, 사이즈를 변경 가능하게 해주는 React 오픈소스 라이브러리입니다.
 
 # 목차
 
@@ -19,6 +19,7 @@ PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 �
     - [limit](#limit-1)
 - [사용 예시 : 이미지 리사이즈 하기](#사용-예시--이미지-리사이즈-하기)
   - [useResizeImage hook 사용하기](#useresizeimage-hook-사용하기)
+  - [metadata 상세](#metadata-상세)
   - [limit 상세](#limit-상세)
     - [max 제한하기](#max-제한하기)
     - [onError](#onerror)
@@ -31,8 +32,8 @@ PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 �
 
 # 기능
 
+- 불러올 파일에 대한 width, height, 확장자, 파일 사이즈 제한 가능
 - image 파일 데이터 제공(확장자, width, height, src, 파일 사이즈)
-- 파일에 대한 width, height, 확장자, 파일 사이즈 제한 가능
 - 불러온 이미지에 대한 Resize 기능
 
 # 설치 방법
@@ -88,7 +89,10 @@ accept는 MDN의 accept 규칙을 따릅니다.[(HTML attribute: accept)](https:
 - `accept` 속성은 `optional`이며 `"image/*"`을 기본값으로 합니다.
 
 ```js
-<ImageLoader> //모든 Image파일 확장자를 받음 Select</ImageLoader>
+<ImageLoader //모든 Image파일 확장자를 받음
+>
+  Select
+</ImageLoader>
 ```
 
 ### limit
@@ -128,7 +132,16 @@ accept는 MDN의 accept 규칙을 따릅니다.[(HTML attribute: accept)](https:
 
 ## useImage hook 사용하기
 
-`useImage`를 사용하여 자유롭게 `input`을 커스터마이징 할 수 있습니다.
+```typescript
+type useImage = (params?:{limit?: Limit;}) => return {
+    ref: React.RefObject<HTMLInputElement>;
+    metadata: ImageMetadata | null;
+    file: File | null;
+    };
+```
+
+`useImage`를 사용하여 자유롭게 `input`을 커스터마이징 하고, `metadata`와 `file`객체를 얻을 수 있습니다.<br/>
+※ Notice: 이미지 파일이 선택되지 않았을 경우 `useImage`가 return하는 `metadata`와 `file`값은 `null`입니다.
 
 ```js
 const { ref, metadata } = useImage({
@@ -156,6 +169,8 @@ return (
 
 `input` 태그의 ref에 `useImage`로부터 받은 `ref`를 전달합니다.
 
+- 이때 전달하는 `input`의 `type`은 `file`이여야 합니다.
+
 ```js
 const { ref } = useImage();
 
@@ -164,7 +179,7 @@ return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
 
 ### metadata
 
-`ref`로 참조한 file `input`을 사용하여 파일을 선택한 경우, `metadata`로 해당 이미지 파일의 관련 metadata를 조회 수 있습니다.
+`ref`로 참조한 file `input`을 사용하여 파일을 선택한 경우, `metadata`로 해당 이미지 파일의 관련 `metadata`를 조회 수 있습니다.
 
 ```js
 const { ref, metadata } = useImage();
@@ -172,6 +187,22 @@ const { ref, metadata } = useImage();
 useEffect(() => {
   if (metadata) console.log(metadata);
   // result: {width: 320, height: 400, extension:'jpg', name:'test1.jpg',src:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...'}
+}, [metadata]);
+
+return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
+```
+
+### file
+
+`ref`로 참조한 file `input`을 사용하여 파일을 선택한 경우, `file`로 해당 이미지 파일의 `file` 객체를 조회 수 있습니다.
+
+```js
+const { ref, file } = useImage();
+
+useEffect(() => {
+  if (file) {
+    //file 업로드 로직...
+  }
 }, [metadata]);
 
 return <input ref={ref} type="file" accept=".jpg, .jpeg" />;
@@ -194,6 +225,16 @@ const { ref, metadata } = useImage({
 
 ## useResizeImage hook 사용하기
 
+```typescript
+type UseResizeImage = (params: {
+  metadata?: ImageMetadata | null;
+  option?: ResizeOption;
+}) => return{
+    file: File | null;
+    metadata: ImageMetadata | null;
+}
+```
+
 [ImageLoader](#imageloader-컴포넌트를-사용하기) 혹은 [useImage](#useimage-hook-사용하기)를 통해 알아낸 `metadata`를 이용하여 이미지를 resize하는 것이 가능합니다.<br/>
 resize하는 다양한 옵션은 [ResizeOption](#resizeoption)에서 확인 가능합니다.
 
@@ -212,7 +253,24 @@ return (
 );
 ```
 
-- `useResizeImage`를 통해서 resize된 이미지의 `metadata`와 `File` 객체를 얻을 수 있습니다.
+- `useResizeImage`를 통해서 resize된 이미지의 `metadata`와 `File` 객체를 얻을 수 있습니다.<br/>
+  ※ Notice: params로 전달되는 `metadata`(resize 하기 전 이미지 파일의 metadata)가 없을 경우 `useResizeImage`가 return하는 `metadata`와 `file`값은 `null`입니다.
+
+## metadata 상세
+
+metadata는 해당 이미지에서 활용하기 좋은 기본적인 정보를 포함하고 있습니다.
+
+```js
+console.log(metadata);
+//{width: 320, height: 400, extension:'jpg', name:'test1.jpg',src:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...', size: 202399}
+```
+
+- width : 해당 이미지의 width(px)
+- height : 해당 이미지의 height(px)
+- extension : 해당 이미지의 확장자
+- name : 해당 이미지 파일의 파일명
+- src : 이미지 파일의 데이터가 Base64 인코딩된 데이터 URL 형식의 값, 이미지 미리보기 등에 활용
+- size: 파일의 크기(byte)
 
 ## limit 상세
 
