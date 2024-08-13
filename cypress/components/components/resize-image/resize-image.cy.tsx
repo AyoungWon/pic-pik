@@ -1,4 +1,4 @@
-import { ResizeOption } from "../../../../src/utils/resizeImage";
+import { ResizeOption } from "src/utils/resizeImage";
 import ResizeImage from "./ResizeImage";
 
 describe("useResizeImage Hook - Resized Metadata Test", () => {

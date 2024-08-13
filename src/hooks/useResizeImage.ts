@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { type ResizeOption, resizeImage } from "../utils/resizeImage";
-import { ImageMetadata, readImageMetadata } from "../utils/readImageMetadata";
+import { type ResizeOption, resizeImage } from "src/utils/resizeImage";
+import {
+  type ImageMetadata,
+  readImageMetadata,
+} from "src/utils/readImageMetadata";
 
 interface Props {
   metadata?: ImageMetadata | null;

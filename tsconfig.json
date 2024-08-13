@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./", // 프로젝트의 루트 디렉토리를 기준으로 설정
     "declaration": true,
     "declarationDir": "./dist/types",
     "outDir": "./dist",
@@ -18,5 +19,5 @@
     "jsx": "react-jsx",
     "types": ["node", "cypress"]
   },
-  "include": ["src", "cypress"]
+  "include": ["src", "cypress", "cypress.config.ts"]
 }

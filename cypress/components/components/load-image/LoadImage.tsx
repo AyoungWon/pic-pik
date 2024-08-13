@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react";
-import useImage from "../../../../src/hooks/useImage";
-import { Limit } from "../../../../src/utils/validate";
+import useImage from "src/hooks/useImage";
+import { type Limit } from "src/utils/validate";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   limit?: Limit;

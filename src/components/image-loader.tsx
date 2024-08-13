@@ -7,9 +7,9 @@ import React, {
   useMemo,
   MouseEvent,
 } from "react";
-import useImage from "../hooks/useImage";
-import { type Limit } from "../utils/validate";
-import { type ImageMetadata } from "../utils/readImageMetadata";
+import useImage from "src/hooks/useImage";
+import { type Limit } from "src/utils/validate";
+import { type ImageMetadata } from "src/utils/readImageMetadata";
 
 interface ImageLoaderProps {
   accept?: string | undefined;
