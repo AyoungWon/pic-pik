@@ -1,4 +1,4 @@
-import { ImageMetadata } from "./readImageMetadata";
+import { type ImageMetadata } from "src/utils/readImageMetadata";
 
 interface AspectRatioWidth {
   mode: "aspectRatio";

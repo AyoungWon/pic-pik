@@ -1,4 +1,4 @@
-import { validateImageFile, type Limit } from "./validate";
+import { validateImageFile, type Limit } from "src/utils/validate";
 
 export interface ImageMetadata {
   height: number;

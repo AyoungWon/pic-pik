@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { type Limit } from "../utils/validate";
+import { type Limit } from "src/utils/validate";
 import {
   type ImageMetadata,
   readImageMetadata,
-} from "../utils/readImageMetadata";
+} from "src/utils/readImageMetadata";
 
 interface Props {
   limit?: Limit;
