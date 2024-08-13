@@ -16,7 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "types": ["vitest", "node", "vitest/globals"]
+    "types": ["node", "cypress"]
   },
-  "include": ["src"]
+  "include": ["src", "cypress"]
 }

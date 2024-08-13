@@ -41,3 +41,6 @@ packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
 
 dist
+# .nyc_output 디렉토리 무시
+.nyc_output/
+coverage/

@@ -1,6 +1,6 @@
 {
   "name": "pic-pik",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A React image file load library with TypeScript and Emotion.js",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -9,27 +9,33 @@
     "dev": "vite",
     "build": "tsc",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test:e2e": "cypress run",
+    "test:component": "cypress run --component"
   },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.12.45",
+    "@cypress/react18": "^2.0.1",
+    "@cypress/vite-dev-server": "^5.1.1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "@vitest/coverage-v8": "^2.0.5",
+    "cypress": "^13.13.2",
+    "cypress-file-upload": "^5.0.8",
+    "istanbul-lib-coverage": "^3.2.2",
     "jsdom": "^22.1.0",
+    "nyc": "^17.0.0",
     "tsx": "^4.16.5",
     "typescript": "^5.5.4",
     "vite": "^5.4.0",
-    "vitest": "^2.0.5",
-    "canvas": "^2.11.2"
+    "vite-plugin-istanbul": "^6.0.2"
   },
   "files": [
     "dist"
