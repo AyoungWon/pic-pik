@@ -1,74 +1,72 @@
 import { type ImageMetadata } from "src/utils/readImageMetadata";
+import { calcResizeDimensions } from "./calcResizeDimensions";
 
+/**
+ * 사용자가 원하는 너비에 맞춰 비율을 유지하면서 이미지를 리사이즈합니다.
+ */
 interface AspectRatioWidth {
   mode: "aspectRatio";
+  /** 리사이즈할 목표 너비 (픽셀 단위) */
   width: number;
 }
 
+/**
+ * 사용자가 원하는 높이에 맞춰 비율을 유지하면서 이미지를 리사이즈합니다.
+ */
 interface AspectRatioHeight {
   mode: "aspectRatio";
+  /** 리사이즈할 목표 높이 (픽셀 단위) */
   height: number;
 }
 
+/**
+ * 사용자가 원하는 비율에 맞춰 이미지를 리사이즈합니다.
+ * 1보다 큰 값은 이미지를 확대하고, 1보다 작은 값은 축소합니다.
+ */
 interface AspectRatioScale {
   mode: "aspectRatio";
+  /** 리사이즈할 비율 (1.0은 100% 크기) */
   scale: number;
 }
 
+/**
+ * 비율을 무시하고 지정된 너비와 높이로 이미지를 강제 리사이즈합니다.
+ * 너비와 높이 중 하나는 반드시 지정해야 합니다.
+ */
 interface StretchResize {
   mode: "stretch";
-  width?: number; // width와 height 중 하나는 반드시 있어야 함
+  /** 리사이즈할 목표 너비 (픽셀 단위) */
+  width?: number;
+  /** 리사이즈할 목표 높이 (픽셀 단위) */
   height?: number;
 }
 
+/**
+ * useImageResize 훅의 매개변수 타입.
+ * 리사이즈 모드에 따라 이미지의 크기를 조정할 수 있습니다.
+ */
 export type ResizeOption =
   | AspectRatioWidth
   | AspectRatioHeight
   | AspectRatioScale
   | StretchResize;
-
-interface ResizeDimensions {
-  targetWidth: number;
-  targetHeight: number;
-}
-
-const calculateResizeDimensions = (
-  imgWidth: number,
-  imgHeight: number,
-  option: ResizeOption
-): ResizeDimensions => {
-  let targetWidth: number = imgWidth; // 초기값 설정
-  let targetHeight: number = imgHeight; // 초기값 설정
-
-  const { mode } = option;
-
-  switch (mode) {
-    case "aspectRatio":
-      if ("width" in option) {
-        targetWidth = option.width;
-        targetHeight = (imgHeight / imgWidth) * targetWidth;
-      } else if ("height" in option) {
-        targetHeight = option.height;
-        targetWidth = (imgWidth / imgHeight) * targetHeight;
-      } else if ("scale" in option) {
-        targetWidth = imgWidth * option.scale;
-        targetHeight = imgHeight * option.scale;
-      }
-      break;
-
-    case "stretch":
-      targetWidth = option.width || imgWidth;
-      targetHeight = option.height || imgHeight;
-      break;
-
-    default:
-      // 기본값으로 초기화된 상태를 유지
-      break;
-  }
-
-  return { targetWidth, targetHeight };
-};
-
+/**
+ * 주어진 이미지 메타데이터와 리사이즈 옵션에 따라 이미지를 리사이즈한 파일을 반환합니다.
+ *
+ * @param {ImageMetadata} metadata - 이미지의 메타데이터. 원본 이미지의 너비, 높이, 소스 등을 포함합니다.
+ * @param {ResizeOption} option - 이미지 리사이즈 옵션. 비율을 유지하거나, 강제 리사이즈할 수 있는 옵션을 포함합니다.
+ * @returns {Promise<File | null>} 리사이즈된 이미지 파일을 반환합니다. 오류 발생 시 null을 반환할 수 있습니다.
+ *
+ * @example
+ * // 이미지 리사이즈 예제
+ * getResizedImageFile(metadata, { mode: "aspectRatio", width: 1280 })
+ *   .then(resizedFile => {
+ *     // 리사이즈된 파일을 처리합니다.
+ *   })
+ *   .catch(error => {
+ *     console.error("Failed to resize image", error);
+ *   });
+ */
 export const getResizedImageFile = (
   metadata: ImageMetadata,
   option: ResizeOption
@@ -86,7 +84,7 @@ export const getResizedImageFile = (
         return;
       }
 
-      const { targetWidth, targetHeight } = calculateResizeDimensions(
+      const { targetWidth, targetHeight } = calcResizeDimensions(
         metadata.width,
         metadata.height,
         option
@@ -115,6 +113,24 @@ export const getResizedImageFile = (
     };
   });
 
+/**
+ * 이미지 메타데이터와 리사이즈 옵션을 받아 이미지를 리사이즈하고, 최대 3번 시도합니다.
+ *
+ * @param {ImageMetadata} metadata - 이미지의 메타데이터. 원본 이미지의 너비, 높이, 소스 등을 포함합니다.
+ * @param {ResizeOption} option - 이미지 리사이즈 옵션. 비율을 유지하거나, 강제 리사이즈할 수 있는 옵션을 포함합니다.
+ * @returns {Promise<File | null>} 리사이즈된 이미지 파일을 반환합니다. 3번 시도 후에도 실패하면 null을 반환합니다.
+ *
+ * @example
+ * // 이미지 리사이즈를 3번 시도하는 예제
+ * resizeImage(metadata, { mode: "stretch", width: 1024, height: 768 })
+ *   .then(resizedFile => {
+ *     if (resizedFile) {
+ *       console.log("Image resized successfully:", resizedFile);
+ *     } else {
+ *       console.error("Failed to resize image after 3 attempts.");
+ *     }
+ *   });
+ */
 export const resizeImage = async (
   metadata: ImageMetadata,
   option: ResizeOption
