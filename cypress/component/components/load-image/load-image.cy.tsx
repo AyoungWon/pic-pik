@@ -1,4 +1,4 @@
-import { Limit } from "../../../utils/validate";
+import { Limit } from "../../../../src/utils/validate";
 import LoadImage from "./LoadImage";
 
 describe("useImage Hook - Image Metadata Test", () => {

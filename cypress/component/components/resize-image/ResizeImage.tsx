@@ -1,7 +1,7 @@
 import { HTMLAttributes } from "react";
-import useImage from "../../../hooks/useImage";
-import useResizeImage from "../../../hooks/useResizeImage";
-import { ResizeOption } from "../../../utils/resizeImage";
+import useImage from "../../../../src/hooks/useImage";
+import useResizeImage from "../../../../src/hooks/useResizeImage";
+import { ResizeOption } from "../../../../src/utils/resizeImage";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   option: ResizeOption;
