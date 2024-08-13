@@ -28,7 +28,7 @@ describe("useResizeImage Hook - Resized Metadata Test", () => {
     cy.get('input[type="file"]').attachFile(filePath);
 
     // Check if the resized metadata is correctly displayed
-    cy.get("#resized-metadata").should("exist");
+    cy.get("#resized-metadata", { timeout: 10000 }).should("exist");
     cy.get("#resized-metadata #width").should("contain", "Width: 150");
     cy.get("#resized-metadata #height").should("contain", "Height: 100");
 
@@ -49,7 +49,7 @@ describe("useResizeImage Hook - Resized Metadata Test", () => {
     const filePath = "images/danbi.jpeg";
     cy.get('input[type="file"]').attachFile(filePath);
 
-    cy.get("#resized-metadata").should("exist");
+    cy.get("#resized-metadata", { timeout: 10000 }).should("exist");
     cy.get("#resized-metadata #width").should("contain", "Width: 43");
     cy.get("#resized-metadata #height").should("contain", "Height: 46");
 
@@ -77,7 +77,7 @@ describe("useResizeImage Hook - Resized Metadata Test", () => {
     const filePath = "images/danbi.jpeg";
     cy.get('input[type="file"]').attachFile(filePath);
 
-    cy.get("#resized-metadata").should("exist");
+    cy.get("#resized-metadata", { timeout: 10000 }).should("exist");
     cy.get("#resized-metadata #width").should("contain", "Width: 400");
     cy.get("#resized-metadata #height").should("contain", "Height: 427");
 

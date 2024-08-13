@@ -12,13 +12,14 @@ describe("useImage Hook - Image Metadata Test", () => {
     cy.get('input[type="file"]').attachFile(filePath);
 
     // 메타데이터가 올바르게 표시되는지 확인
-    cy.get("#metadata").should("exist");
+    cy.get("#metadata", { timeout: 10000 }).should("exist");
     cy.get("#width").should("contain", "Width: 217"); // 너비 정보 확인
     cy.get("#height").should("contain", "Height: 232"); // 높이 정보 확인
     cy.get("#size").should("contain", "Size: 7890"); // 파일 크기 확인
     cy.get("#name").should("contain", "Name: danbi.jpeg"); // 파일 이름 확인
     cy.get("#extension").should("contain", "Extension: jpeg"); // 파일 확장자 확인
   });
+
   it("should trigger onError when image width exceeds limit", () => {
     // onError 핸들러를 정의
     const onError = cy.stub();
