@@ -15,10 +15,12 @@ PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 �
     - [onMetadataLoaded](#onmetadataloaded)
   - [useImage hook 사용하기](#imageloader-컴포넌트를-사용하기)
     - [ref](#ref)
+    - [file](#file)
     - [metadata](#metadata)
     - [limit](#limit-1)
 - [사용 예시 : 이미지 리사이즈 하기](#사용-예시--이미지-리사이즈-하기)
   - [useResizeImage hook 사용하기](#useresizeimage-hook-사용하기)
+- [상세 확인하기](#상세-확인하기)
   - [metadata 상세](#metadata-상세)
   - [limit 상세](#limit-상세)
     - [max 제한하기](#max-제한하기)
@@ -41,6 +43,8 @@ PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 �
 ```bash
 npm install pic-pik
 ```
+
+<br/><br/>
 
 # 사용 예시 : 이미지 파일 불러오기
 
@@ -221,6 +225,8 @@ const { ref, metadata } = useImage({
 });
 ```
 
+<br/><br/>
+
 # 사용 예시 : 이미지 리사이즈 하기
 
 ## useResizeImage hook 사용하기
@@ -255,6 +261,31 @@ return (
 
 - `useResizeImage`를 통해서 resize된 이미지의 `metadata`와 `File` 객체를 얻을 수 있습니다.<br/>
   ※ Notice: params로 전달되는 `metadata`(resize 하기 전 이미지 파일의 metadata)가 없을 경우 `useResizeImage`가 return하는 `metadata`와 `file`값은 `null`입니다.
+
+```js
+const { ref, metadata: originalMetadata } = useImage();
+const { metadata, file } = useResizeImage({
+  metadata: originalMetadata,
+  option: { mode: "aspectRatio", scale: 0.2 },
+});
+
+useEffect(() => {
+  if (file) {
+    //file 업로드 로직...
+  }
+}, [metadata]);
+
+return (
+  <div style={{ display: "flex", flexDirection: "column" }}>
+    <input type="file" ref={ref} />
+    {metadata && <img src={metadata.src} width={metadata.width} />}
+  </div>
+);
+```
+
+<br/><br/>
+
+# 상세 확인하기
 
 ## metadata 상세
 
