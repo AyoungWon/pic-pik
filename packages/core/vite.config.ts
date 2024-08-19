@@ -11,17 +11,17 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      src: path.resolve(__dirname, "./src"), // 'src/~' 경로 설정
     },
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
-      name: "MyUtils",
-      fileName: (format) => `my-utils.${format}.js`,
+      entry: path.resolve(__dirname, "src/index.ts"), // 라이브러리 진입점
+      name: "PicPikCore", // 전역 변수 이름을 라이브러리 이름에 맞게 변경
+      fileName: (format) => `pic-pik-core.${format}.js`, // 파일 이름을 라이브러리 이름에 맞게 변경
     },
     rollupOptions: {
-      external: [], // 필요한 외부 라이브러리를 여기에 추가
+      external: [],
       output: {
         globals: {},
       },

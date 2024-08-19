@@ -4,7 +4,7 @@ import { calcResizeDimensions } from "./calcResizeDimensions";
 /**
  * 사용자가 원하는 너비에 맞춰 비율을 유지하면서 이미지를 리사이즈합니다.
  */
-interface AspectRatioWidth {
+export interface AspectRatioWidth {
   mode: "aspectRatio";
   /** 리사이즈할 목표 너비 (픽셀 단위) */
   width: number;
@@ -13,7 +13,7 @@ interface AspectRatioWidth {
 /**
  * 사용자가 원하는 높이에 맞춰 비율을 유지하면서 이미지를 리사이즈합니다.
  */
-interface AspectRatioHeight {
+export interface AspectRatioHeight {
   mode: "aspectRatio";
   /** 리사이즈할 목표 높이 (픽셀 단위) */
   height: number;
@@ -23,7 +23,7 @@ interface AspectRatioHeight {
  * 사용자가 원하는 비율에 맞춰 이미지를 리사이즈합니다.
  * 1보다 큰 값은 이미지를 확대하고, 1보다 작은 값은 축소합니다.
  */
-interface AspectRatioScale {
+export interface AspectRatioScale {
   mode: "aspectRatio";
   /** 리사이즈할 비율 (1.0은 100% 크기) */
   scale: number;
@@ -33,7 +33,7 @@ interface AspectRatioScale {
  * 비율을 무시하고 지정된 너비와 높이로 이미지를 강제 리사이즈합니다.
  * 너비와 높이 중 하나는 반드시 지정해야 합니다.
  */
-interface StretchResize {
+export interface StretchResize {
   mode: "stretch";
   /** 리사이즈할 목표 너비 (픽셀 단위) */
   width?: number;

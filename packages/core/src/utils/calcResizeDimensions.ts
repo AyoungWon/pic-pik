@@ -5,7 +5,7 @@ import { type ResizeOption } from "./resizeImage";
  * @property {number} targetWidth - 리사이즈 후 계산된 너비.
  * @property {number} targetHeight - 리사이즈 후 계산된 높이.
  */
-interface ResizeDimensions {
+export interface ResizeDimensions {
   targetWidth: number;
   targetHeight: number;
 }
