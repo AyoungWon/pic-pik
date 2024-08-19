@@ -1,6 +1,6 @@
 {
   "name": "@pic-pik/core",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A collection of pic-pik utilities for loading, restricting, and managing image files with TypeScript.",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",

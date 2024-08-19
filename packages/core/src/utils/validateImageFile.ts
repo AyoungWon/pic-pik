@@ -1,12 +1,14 @@
 import { type ImageMetadata } from "src/utils/readImageMetadata";
 
 /**
+ * validate에 실패한 error에 관련된 내용을 전달하는 interface
+ *
  * @interface ValidateError
  * @property {string} field - 유효성 검사에서 실패한 필드의 이름입니다.
  * @property {number} selectedFileValue - 사용자가 선택한 파일의 실제 값입니다.
  * @property {number} max - 허용된 최대 값입니다.
  */
-interface ValidateError {
+export interface ValidateError {
   field: string;
   selectedFileValue: number;
   max: number;
@@ -26,6 +28,8 @@ type LimitMaxOption = number | { max: number; onError?: ErrorHandler };
 type ErrorHandler = (error: ValidateError) => void;
 
 /**
+ * 불러올 이미지 파일의 제한 사항을 지정하는 interface
+ *
  * @interface Limit
  * @property {LimitMaxOption} [width] - 이미지의 너비 제한 옵션입니다.
  * @property {LimitMaxOption} [height] - 이미지의 높이 제한 옵션입니다.

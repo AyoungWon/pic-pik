@@ -1,7 +1,8 @@
 import { type ResizeOption } from "./resizeImage";
 
 /**
- * @typedef {Object} ResizeDimensions
+ * 리사이즈 후 계산된 크기를 나타내는 인터페이스.
+ * @interface ResizeDimensions
  * @property {number} targetWidth - 리사이즈 후 계산된 너비.
  * @property {number} targetHeight - 리사이즈 후 계산된 높이.
  */

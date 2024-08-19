@@ -1,12 +1,12 @@
 import {
   calcResizeDimensions,
   type ResizeDimensions,
-} from "src/utils/calcResizeDimensions";
-import { checkFileType } from "src/utils/checkFileType";
+} from "./utils/calcResizeDimensions";
+import { checkFileType } from "./utils/checkFileType";
 import {
   readImageMetadata,
   type ImageMetadata,
-} from "src/utils/readImageMetadata";
+} from "./utils/readImageMetadata";
 import {
   resizeImage,
   type ResizeOption,
@@ -14,8 +14,12 @@ import {
   type AspectRatioHeight,
   type AspectRatioScale,
   type StretchResize,
-} from "src/utils/resizeImage";
-import { validateImageFile, type Limit } from "src/utils/validateImageFile";
+} from "./utils/resizeImage";
+import {
+  validateImageFile,
+  type Limit,
+  type ValidateError,
+} from "./utils/validateImageFile";
 
 export {
   calcResizeDimensions,
@@ -34,4 +38,5 @@ export type {
   AspectRatioHeight,
   AspectRatioScale,
   StretchResize,
+  ValidateError,
 };

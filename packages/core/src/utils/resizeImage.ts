@@ -1,46 +1,52 @@
 import { type ImageMetadata } from "src/utils/readImageMetadata";
 import { calcResizeDimensions } from "./calcResizeDimensions";
-
 /**
  * 사용자가 원하는 너비에 맞춰 비율을 유지하면서 이미지를 리사이즈합니다.
+ * @interface AspectRatioWidth
+ * @property {string} mode - 리사이즈 모드. 항상 "aspectRatio"입니다.
+ * @property {number} width - 리사이즈할 목표 너비 (픽셀 단위).
  */
 export interface AspectRatioWidth {
   mode: "aspectRatio";
-  /** 리사이즈할 목표 너비 (픽셀 단위) */
   width: number;
 }
 
 /**
  * 사용자가 원하는 높이에 맞춰 비율을 유지하면서 이미지를 리사이즈합니다.
+ * @interface AspectRatioHeight
+ * @property {string} mode - 리사이즈 모드. 항상 "aspectRatio"입니다.
+ * @property {number} height - 리사이즈할 목표 높이 (픽셀 단위).
  */
 export interface AspectRatioHeight {
   mode: "aspectRatio";
-  /** 리사이즈할 목표 높이 (픽셀 단위) */
   height: number;
 }
 
 /**
  * 사용자가 원하는 비율에 맞춰 이미지를 리사이즈합니다.
  * 1보다 큰 값은 이미지를 확대하고, 1보다 작은 값은 축소합니다.
+ * @interface AspectRatioScale
+ * @property {string} mode - 리사이즈 모드. 항상 "aspectRatio"입니다.
+ * @property {number} scale - 리사이즈할 비율 (1.0은 100% 크기).
  */
 export interface AspectRatioScale {
   mode: "aspectRatio";
-  /** 리사이즈할 비율 (1.0은 100% 크기) */
   scale: number;
 }
 
 /**
  * 비율을 무시하고 지정된 너비와 높이로 이미지를 강제 리사이즈합니다.
  * 너비와 높이 중 하나는 반드시 지정해야 합니다.
+ * @interface StretchResize
+ * @property {string} mode - 리사이즈 모드. 항상 "stretch"입니다.
+ * @property {number} [width] - 리사이즈할 목표 너비 (픽셀 단위).
+ * @property {number} [height] - 리사이즈할 목표 높이 (픽셀 단위).
  */
 export interface StretchResize {
   mode: "stretch";
-  /** 리사이즈할 목표 너비 (픽셀 단위) */
   width?: number;
-  /** 리사이즈할 목표 높이 (픽셀 단위) */
   height?: number;
 }
-
 /**
  * useImageResize 훅의 매개변수 타입.
  * 리사이즈 모드에 따라 이미지의 크기를 조정할 수 있습니다.
