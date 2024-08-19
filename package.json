@@ -1,7 +1,17 @@
 {
-  "name": "@pic-pik/mono",
+  "name": "@pic-pik",
   "version": "0.1.0",
-  "description": "A library for loading and managing image files in the pic-pik ecosystem.",
-  "author": "Ayoung Won",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "clean": "npm run clean --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
   "license": "MIT"
 }
