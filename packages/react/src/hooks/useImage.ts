@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { type Limit } from "src/utils/validate";
-import {
-  type ImageMetadata,
-  readImageMetadata,
-} from "src/utils/readImageMetadata";
-import { checkFileType } from "src/utils/checkFileType";
+import { type Limit } from "@pic-pik/core";
+import { type ImageMetadata, readImageMetadata } from "@pic-pik/core";
+import { checkFileType } from "@pic-pik/core";
 
 interface Props {
   limit?: Limit;
