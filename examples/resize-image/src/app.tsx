@@ -1,5 +1,5 @@
 import React from "react";
-import { useImage, useResizeImage } from 'pic-pik"';
+import { useImage, useResizeImage } from "@pic-pik/react";
 
 const App = () => {
   const { ref, metadata: imageOriginalMetadata } = useImage();

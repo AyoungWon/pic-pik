@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { type ImageMetadata, ImageLoader } from 'pic-pik"';
+import { ImageLoader } from "@pic-pik/react";
+import { type ImageMetadata } from "@pic-pik/core";
 
 const App = () => {
   const [imageMetadata, setMetadata] = useState<ImageMetadata>();
