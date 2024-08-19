@@ -1,4 +1,4 @@
-import { Limit } from "src/utils/validate";
+import { type Limit } from "@pic-pik/core";
 import LoadImage from "./LoadImage";
 
 describe("useImage Hook - Image Metadata Test", () => {

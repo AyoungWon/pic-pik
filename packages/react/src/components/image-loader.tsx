@@ -8,8 +8,7 @@ import React, {
   MouseEvent,
 } from "react";
 import useImage from "src/hooks/useImage";
-import { type Limit } from "src/utils/validate";
-import { type ImageMetadata } from "src/utils/readImageMetadata";
+import { type Limit, type ImageMetadata } from "@pic-pik/core";
 
 interface ImageLoaderProps {
   accept?: string | undefined;

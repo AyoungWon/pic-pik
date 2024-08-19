@@ -14,10 +14,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "paths": {
-      "src/*": ["./src/*"]
-    }
+    "isolatedModules": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "src/setupTests.ts"]

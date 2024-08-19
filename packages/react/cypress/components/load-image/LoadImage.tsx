@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react";
 import useImage from "src/hooks/useImage";
-import { type Limit } from "src/utils/validate";
+import { type Limit } from "@pic-pik/core";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   limit?: Limit;

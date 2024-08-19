@@ -1,7 +1,7 @@
 import { HTMLAttributes } from "react";
 import useImage from "src/hooks/useImage";
 import useResizeImage from "src/hooks/useResizeImage";
-import { type ResizeOption } from "src/utils/resizeImage";
+import { type ResizeOption } from "@pic-pik/core";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   option: ResizeOption;

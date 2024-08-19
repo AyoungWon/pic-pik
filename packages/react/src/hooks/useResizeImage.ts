@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { type ResizeOption, resizeImage } from "@pic-pik/core";
-import { type ImageMetadata, readImageMetadata } from "@pic-pik/core";
+import {
+  type ResizeOption,
+  resizeImage,
+  type ImageMetadata,
+  readImageMetadata,
+} from "@pic-pik/core";
 
 interface Props {
   metadata?: ImageMetadata | null;
