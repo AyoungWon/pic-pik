@@ -23,8 +23,6 @@
     "@cypress/vite-dev-server": "^5.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@testing-library/dom": "^8.14.0",
-    "@testing-library/jest-dom": "^6.0.0",
-    "@types/jest": "^29.5.12",
     "@types/react": "^18.3.3",
     "cypress": "^13.13.2",
     "cypress-file-upload": "^5.0.8",
