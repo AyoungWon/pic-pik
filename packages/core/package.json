@@ -1,10 +1,21 @@
 {
   "name": "@pic-pik/core",
   "version": "0.1.4",
-  "description": "A collection of pic-pik utilities for loading, restricting, and managing image files with TypeScript.",
+  "description": "A collection of pic-pik utilities for loading, restricting, resizing and managing image files with TypeScript.",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
+  "keywords": [
+    "image-processing",
+    "image-resize",
+    "image-metadata",
+    "javascript",
+    "typescript",
+    "file-upload",
+    "web-development",
+    "aspect-ratio",
+    "resize"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -39,6 +50,9 @@
   "files": [
     "dist"
   ],
-  "author": "Ayoung Won",
+  "author": {
+    "name": "Ayoung Won",
+    "email": "wayinwayne@gmail.com"
+  },
   "license": "MIT"
 }
