@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "outDir": "./dist",
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

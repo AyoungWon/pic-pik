@@ -1,8 +1,8 @@
 import React from "react";
-import { useImage } from 'pic-pik"';
+import { useImage } from "@pic-pik/react";
 
 const App = () => {
-  const { ref, imageMetadata } = useImage({
+  const { ref, metadata } = useImage({
     limit: {
       width: 1000,
       height: { max: 2000, onError: (error) => console.log(error) },
@@ -11,10 +11,10 @@ const App = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <input ref={ref} type="file" accept=".jpg, .jpeg" />
-      {imageMetadata && (
+      {metadata && (
         <img
-          style={{ width: imageMetadata.width, height: imageMetadata.height }}
-          src={imageMetadata.src}
+          style={{ width: metadata.width, height: metadata.height }}
+          src={metadata.src}
           alt="image file"
         />
       )}

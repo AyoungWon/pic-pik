@@ -1,0 +1,58 @@
+{
+  "name": "@pic-pik/core",
+  "version": "0.1.4",
+  "description": "A collection of pic-pik utilities for loading, restricting, resizing and managing image files with TypeScript.",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "type": "module",
+  "keywords": [
+    "image-processing",
+    "image-resize",
+    "image-metadata",
+    "javascript",
+    "typescript",
+    "file-upload",
+    "web-development",
+    "aspect-ratio",
+    "resize"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build",
+    "test:e2e": "cypress run",
+    "test:component": "cypress run --component",
+    "clean": "rm -rf dist cypress/reports"
+  },
+  "devDependencies": {
+    "@cypress/code-coverage": "^3.12.45",
+    "@cypress/vite-dev-server": "^5.1.1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@testing-library/dom": "^8.14.0",
+    "@types/react": "^18.3.3",
+    "cypress": "^13.13.2",
+    "cypress-file-upload": "^5.0.8",
+    "istanbul-lib-coverage": "^3.2.2",
+    "jsdom": "^22.1.0",
+    "nyc": "^17.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsx": "^4.16.5",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vite-plugin-istanbul": "^6.0.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": {
+    "name": "Ayoung Won",
+    "email": "wayinwayne@gmail.com"
+  },
+  "license": "MIT"
+}
