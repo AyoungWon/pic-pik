@@ -29,13 +29,13 @@ PicPik은 Image 파일 선택시 파일에 대한 데이터와 meta 정보를 �
 
 - Javascript 및 Typescript 사용자를 위한 라이브러리입니다.
 - [npm](https://www.npmjs.com/package/@pic-pik/core)
-- [readme](https://github.com/AyoungWon/tree/main/packages/core/README.md)
+- [readme](https://github.com/AyoungWon/pic-pik/blob/main/packages/core/README.md)
 
 ## @pic-pik/react
 
 - React에서 사용하기 위한 라이브러리입니다. 관련된 컴포넌트와 Custom Hook을 제공합니다.
 - [npm](https://www.npmjs.com/package/@pic-pik/react)
-- [readme](https://github.com/AyoungWon/tree/main/packages/react/README.md)
+- [readme](https://github.com/AyoungWon/pic-pik/blob/main/packages/react/README.md)
 
 <br/>
 
