@@ -1,4 +1,4 @@
-import { validateImageFile, type Limit } from "src/utils/validateImageFile";
+import { validateImageFile, type Limit } from "./validateImageFile";
 
 /**
  * @interface ImageMetadata

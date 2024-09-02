@@ -1,4 +1,4 @@
-import { type ImageMetadata } from "src/utils/readImageMetadata";
+import { type ImageMetadata } from "./readImageMetadata";
 import { calcResizeDimensions } from "./calcResizeDimensions";
 /**
  * 사용자가 원하는 너비에 맞춰 비율을 유지하면서 이미지를 리사이즈합니다.

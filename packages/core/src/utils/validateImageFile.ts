@@ -1,4 +1,4 @@
-import { type ImageMetadata } from "src/utils/readImageMetadata";
+import { type ImageMetadata } from "./readImageMetadata";
 
 /**
  * validate에 실패한 error에 관련된 내용을 전달하는 interface
