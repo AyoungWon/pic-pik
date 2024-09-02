@@ -7,7 +7,7 @@ import React, {
   useMemo,
   MouseEvent,
 } from "react";
-import useImage from "src/hooks/useImage";
+import useImage from "../hooks/useImage";
 import { type Limit, type ImageMetadata } from "@pic-pik/core";
 
 interface ImageLoaderProps {
