@@ -1,6 +1,6 @@
 {
   "name": "@pic-pik/react",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "A React image file load and resize library with TypeScript",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -33,7 +33,7 @@
     "test:component": "cypress run --component"
   },
   "dependencies": {
-    "@pic-pik/core": "^0.1.3"
+    "@pic-pik/core": "^0.1.5"
   },
   "peerDependencies": {
     "react": "^18.0.0",
